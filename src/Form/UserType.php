@@ -15,13 +15,14 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Defines the form used to edit an user.
  *
- * @author Romain Monteil <monteil.romain@gmail.com>
  */
 class UserType extends AbstractType
 {
@@ -49,6 +50,19 @@ class UserType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'label.email',
+            ])
+            ->add('isVerified', TextType::class, [
+                'label' => 'label.is_verified',
+                'disabled' => true,
+            ])
+            ->add('avatar', FileType::class, [
+                'label' => 'upload a file',
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false,
+            ])
+             ->add('saying', TextType::class, [
+                'label' => 'label.saying',
             ])
         ;
     }

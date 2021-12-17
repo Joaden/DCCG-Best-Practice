@@ -22,15 +22,31 @@
         {% for post in posts %}
             <tr>
                 <td>{{ post.title }}</td>
-                {% if post.user.email is defined %}
-                    <td>{{ post.user.email }} / {{ post.user.firstname }}</td>
+                {% if post.author.fullName is defined %}
+                    <td>{{ post.author.fullName }}</td>
                 {% else %}
                     <td class="text-danger">non défini</td>
                 {% endif %}
-                <td>{{ post.online }}</td>
+
+                {% if post.online is defined %}
+                    <td>{{ post.online ? 'Yes' : 'No'  }}</td>
+                    {% else %}
+                        <td class="text-danger">non défini</td>
+                {% endif %}
+
+                {% if post.nbrView is defined %}
                 <td>{{ post.nbrView }}</td>
-                <td>{{ post.report }}</td>
-                <td ><img src="{{ post.image }}" alt="..." class="img-fluid img-thumbnail"></td>
+                {% else %}
+                    <td class="text-danger">0</td>
+                {% endif %}
+
+                {% if post.report is defined %}
+                <td class="text-danger">{{ post.report }}</td>
+                {% else %}
+                    <td class="text-danger">0</td>
+                {% endif %}
+
+                <td ><img src="{{ asset('/uploads/'~post.image) }}" alt="thumbnail image" class="img-fluid img-thumbnail"></td>
                 {# it's not mandatory to set the timezone in localizeddate(). This is done to
                    avoid errors when the 'intl' PHP extension is not available and the application
                    is forced to use the limited "intl polyfill", which only supports UTC and GMT #}

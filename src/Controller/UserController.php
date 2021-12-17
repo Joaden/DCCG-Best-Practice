@@ -26,7 +26,6 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/profile")
  * @IsGranted("ROLE_USER")
  *
- * @author Romain Monteil <monteil.romain@gmail.com>
  */
 class UserController extends AbstractController
 {
