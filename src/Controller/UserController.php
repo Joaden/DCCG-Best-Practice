@@ -18,7 +18,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 /**
  * Controller used to manage current user.
@@ -41,6 +44,32 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            ///// ADD AVATAR
+             // On récupère l'image transmise
+            $avatars = $form->get('avatar')->getData();
+
+            // On traite les img dans une boucle
+            if ($avatars) {
+                foreach($avatars as $avatar){
+                    // On génère un nouveau nom de fichier (guessExtension get le .jpg/png etc..)
+                    $fichier = md5(uniqid()) . 'avatar.' . $avatar->guessExtension();
+
+                    // On copie le fichier dans le dossier uploads
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $avatar->move(
+                            $this->getParameter('images_directory'),
+                            $fichier
+                        );
+                    } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    }
+                    // On stock l'image dans la base de donnée(son nom)
+                    // instead of its contents
+                    $user->setAvatar($fichier);
+                }
+            }
 
             $this->addFlash('success', 'user.updated_successfully');
 
