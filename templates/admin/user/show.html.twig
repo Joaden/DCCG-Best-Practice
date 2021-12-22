@@ -3,30 +3,29 @@
 {% block body_id 'user_show' %}
 
 {% block main %}
-    <h1>{{ user.title }}</h1>
+    <h1>{{ user.username }}</h1>
 
-    {% if user.image %}
+    {% if user.avatar %}
         <div class="d-inline p-4">
-            <img src="{{ asset('/uploads/'~user.image) }}" alt="Responsive image" class="img-fluid">
+            <img src="{{ asset('/uploads/'~user.avatar) }}" alt="Responsive image" class="img-fluid">
         </div>
     {% endif %}
     <p class="post-metadata">
-        <span class="metadata"><i class="fa fa-calendar"></i> {{ user.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span>
-        <span class="metadata"><i class="fa fa-user"></i> {{ user.author.fullName }}</span>
+        {#<span class="metadata"><i class="fa fa-calendar"></i> {{ user.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span>#}
+        <span class="metadata"><i class="fa fa-user"></i> {{ user.fullName }}</span>
     </p>
 
     <div class="well">
-        <p class="m-b-0"><strong>{{ 'label.summary'|trans }}</strong>: {{ user.summary }}</p>
+        <p class="m-b-0"><strong>{{ 'label.summary'|trans }}</strong>: {{ user.saying }}</p>
     </div>
 
-    nl2br{{ user.content|markdown_to_html|sanitize_html }}
+    nl2br{{ user.bio|markdown_to_html|sanitize_html }}
 
-    {{ include('blog/user_tags.html.twig') }}
 {% endblock %}
 
 {% block sidebar %}
     <div class="section">
-        <a href="{{ path('user_edit', {id: user.id}) }}" class="btn btn-lg btn-block btn-success">
+        <a href="{{ path('admin_user_edit', {id: user.id}) }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit_contents'|trans }}
         </a>
     </div>

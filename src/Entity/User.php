@@ -97,6 +97,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $payments;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $bio;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $subscribed_at;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
@@ -289,6 +299,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $payment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): self
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    public function getSubscribedAt(): ?\DateTimeInterface
+    {
+        return $this->subscribed_at;
+    }
+
+    public function setSubscribedAt(\DateTimeInterface $subscribed_at): self
+    {
+        $this->subscribed_at = $subscribed_at;
 
         return $this;
     }

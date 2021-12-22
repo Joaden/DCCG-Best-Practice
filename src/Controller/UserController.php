@@ -1,18 +1,18 @@
 <?php
 
 /*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Created by PhpStorm.
+ * User: chane
+ * Date: 18/12/2021
+ * Time: 00:51
  */
 
 namespace App\Controller;
 
 use App\Form\Type\ChangePasswordType;
+use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,8 +35,9 @@ class UserController extends AbstractController
     /**
      * @Route("/edit", methods="GET|POST", name="user_edit")
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, UserRepository $user): Response
     {
+        $user = new User();
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user);
@@ -70,10 +71,10 @@ class UserController extends AbstractController
                     $user->setAvatar($fichier);
                 }
             }
-
+            $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'user.updated_successfully');
 
-            return $this->redirectToRoute('user_edit');
+            return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
         }
 
         return $this->render('user/edit.html.twig', [

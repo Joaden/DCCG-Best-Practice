@@ -9,8 +9,8 @@
         {{ form_widget(form) }}
 
         {% if user.avatar %}
-            <div class="d-inline p-4">
-                <img src="{{ asset('/uploads/'~user.avatar) }}" alt="Responsive image" class="img-fluid max-width: 100%" >
+            <div class="d-inline p-2">
+                <img src="{{ asset('/uploads/'~user.avatar) }}" alt="Responsive image" class="img-fluid" style="width: 50%">
             </div>
         {% endif %}
 

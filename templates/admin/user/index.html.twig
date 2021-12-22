@@ -3,72 +3,76 @@
 {% block body_id 'admin_user_index' %}
 
 {% block main %}
-    <h1>{{ 'title.user_list'|trans }}</h1>
+    <h1>{{ 'Liste des utilisateurs'|trans }}</h1>
 
     <table class="table table-striped table-middle-aligned">
         <thead>
             <tr>
-                <th scope="col">{{ 'label.full_name'|trans }}</th>
                 <th scope="col">{{ 'label.username'|trans }}</th>
                 <th scope="col">{{ 'email'|trans }}</th>
                 <th scope="col">{{ 'roles'|trans }}</th>
                 <th scope="col">{{ 'is_verified'|trans }}</th>
                 <th scope="col">{{ 'avatar'|trans }}</th>
                 <th scope="col">{{ 'gender'|trans }}</th>
-                <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> {{ 'label.published_at'|trans }}</th>
+                <th scope="col"><i class="fa fa-calendar" aria-hidden="true"></i> {{ 'label.subscriber'|trans }}</th>
                 <th scope="col" class="text-center"><i class="fa fa-cogs" aria-hidden="true"></i> {{ 'label.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.fullName }}</td>
-                {% if user.fullName is defined %}
-                    <td>{{ user.fullName }}</td>
-                {% else %}
-                    <td class="text-danger">non défini</td>
-                {% endif %}
-
-                {% if user.is_verified is defined %}
-                    <td>{{ user.is_verified ? 'Yes' : 'No'  }}</td>
+        {% if users is defined %}
+            {% for user in users %}
+                <tr>
+                    {% if user.fullName is defined %}
+                        <td>{{ user.fullName }}</td>
                     {% else %}
                         <td class="text-danger">non défini</td>
-                {% endif %}
+                    {% endif %}
+                    <td>{{ user.email }}</td>
+                    {% for role in user.roles %}
+                        <td>{{ role }}</td>
+                    {% endfor %}
+                    {#<td>{{ user.roles ? user.roles|json_encode : '' }}</td>#}
 
-                {#{% if post.nbrView is defined %}#}
-                {#<td>{{ user.nbrView }}</td>#}
-                {#{% else %}#}
-                    {#<td class="text-danger">0</td>#}
-                {#{% endif %}#}
+                    <td>{{ user.isVerified ? 'Yes' : 'No'  }}</td>
 
-                {#{% if user.report is defined %}#}
-                {#<td class="text-danger">{{ user.report }}</td>#}
-                {#{% else %}#}
-                    {#<td class="text-danger">0</td>#}
-                {#{% endif %}#}
+                    <td ><img src="{{ asset('/uploads/'~user.avatar) }}" alt="thumbnail image" class="img-fluid img-thumbnail"></td>
 
-                <td ><img src="{{ asset('/uploads/'~user.avatar) }}" alt="thumbnail image" class="img-fluid img-thumbnail"></td>
-                {# it's not mandatory to set the timezone in localizeddate(). This is done to
-                   avoid errors when the 'intl' PHP extension is not available and the application
-                   is forced to use the limited "intl polyfill", which only supports UTC and GMT #}
-                {#<td>{{ user.publishedAt|format_datetime('medium', 'short', '', 'UTC') }}</td>#}
-                <td class="text-right">
-                    <div class="item-actions">
-                        <a href="{{ path('admin_user_show', {id: user.id}) }}" class="btn btn-sm btn-default">
-                            <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }}
-                        </a>
+                    {% if user.gender is defined %}
+                    <td class="text-danger">{{ user.gender ? 'Homme' : 'Femme' }}</td>
+                    {#{% else %}#}
+                        {#<td class="text-danger">non défini</td>#}
+                    {% endif %}
 
-                        {#<a href="{{ path('user_edit', {id: user.id}) }}" class="btn btn-sm btn-primary">#}
-                            {#<i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}#}
-                        {#</a>#}
-                    </div>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4" align="center">{{ 'user.users_found'|trans }}</td>
-           </tr>
-        {% endfor %}
+                    <td class="text-primary">01/12/2021</td>
+
+                    {#<td>#}
+                        {#<a href="{{ path('users_edit', {'id': user.id}) }}">edit</a>#}
+                    {#</td>#}
+
+                    {# it's not mandatory to set the timezone in localizeddate(). This is done to
+                       avoid errors when the 'intl' PHP extension is not available and the application
+                       is forced to use the limited "intl polyfill", which only supports UTC and GMT #}
+                    {#<td>{{ user.publishedAt|format_datetime('medium', 'short', '', 'UTC') }}</td>#}
+                    <td class="text-right">
+                        <div class="item-actions">
+                            {#<a href="{{ path('admin_user_show', {'id': user.id}) }}">show</a>#}
+
+                            <a href="{{ path('admin_user_show', {id: user.id}) }}" class="btn btn-sm btn-default">
+                                <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }}
+                            </a>
+
+                            {#<a href="{{ path('user_edit', {id: user.id}) }}" class="btn btn-sm btn-primary">#}
+                                {#<i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}#}
+                            {#</a>#}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" align="center">{{ 'user.users_found'|trans }}</td>
+               </tr>
+            {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 {% endblock %}
