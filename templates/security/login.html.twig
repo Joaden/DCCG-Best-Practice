@@ -38,6 +38,9 @@
             </div>
         </div>
 
+        <div class="well">
+            <legend>{{ 'Si vous n\'avez pas de compte'|trans }} => <a href="{{ path('go_register') }}">S'inscrire</a></legend>
+        </div>
         <div id="login-help" class="col-sm-7">
             <h3>
                 <i class="hidden-xs fa fa-long-arrow-left" aria-hidden="true"></i>
@@ -64,14 +67,14 @@
                         <td><code>ROLE_ADMIN</code> ({{ 'help.role_admin'|trans }})</td>
                     </tr>
                     <tr>
-                        <td>jane_admin</td>
+                        <td>jacky_editor</td>
                         <td>kitten</td>
-                        <td><code>ROLE_ADMIN</code> ({{ 'help.role_editor'|trans }})</td>
+                        <td><code>ROLE_EDITOR</code> ({{ 'editeur'|trans }})</td>
                     </tr>
                     <tr>
-                        <td>jane_admin</td>
+                        <td>julie_moderator</td>
                         <td>kitten</td>
-                        <td><code>ROLE_ADMIN</code> ({{ 'help.role_moderator'|trans }})</td>
+                        <td><code>ROLE_MODERATOR</code> ({{ 'moderateur'|trans }})</td>
                     </tr>
                 </tbody>
             </table>

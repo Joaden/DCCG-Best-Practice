@@ -37,10 +37,10 @@
 
                     <td ><img src="{{ asset('/uploads/'~user.avatar) }}" alt="thumbnail image" class="img-fluid img-thumbnail"></td>
 
-                    {% if user.gender is defined %}
+                    {% if user.gender is not null %}
                     <td class="text-danger">{{ user.gender ? 'Homme' : 'Femme' }}</td>
-                    {#{% else %}#}
-                        {#<td class="text-danger">non défini</td>#}
+                    {% else %}
+                        <td class="text-danger">non défini</td>
                     {% endif %}
 
                     <td class="text-primary">01/12/2021</td>
@@ -61,9 +61,9 @@
                                 <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }}
                             </a>
 
-                            {#<a href="{{ path('user_edit', {id: user.id}) }}" class="btn btn-sm btn-primary">#}
-                                {#<i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}#}
-                            {#</a>#}
+                            <a href="#" class="btn btn-sm btn-danger">
+                                <i class="fa fa-edit" aria-hidden="true"></i>delete
+                            </a>
                         </div>
                     </td>
                 </tr>

@@ -14,6 +14,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -73,9 +75,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default": false})
      */
-    private $isVerified;
+    private $isVerified = false;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -126,15 +128,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->fullName;
     }
-
-    public function getUserIdentifier(): string
-    {
-        return $this->username;
-    }
+//
+//    public function getUserIdentifier(): string
+//    {
+//        return $this->username;
+//    }
 
     public function getUsername(): string
     {
-        return $this->getUserIdentifier();
+//        return $this->getUserIdentifier();
+        return $this->username;
     }
 
     public function setUsername(string $username): void
@@ -325,5 +328,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->subscribed_at = $subscribed_at;
 
         return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
     }
 }
