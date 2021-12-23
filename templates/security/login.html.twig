@@ -63,6 +63,16 @@
                         <td>kitten</td>
                         <td><code>ROLE_ADMIN</code> ({{ 'help.role_admin'|trans }})</td>
                     </tr>
+                    <tr>
+                        <td>jane_admin</td>
+                        <td>kitten</td>
+                        <td><code>ROLE_ADMIN</code> ({{ 'help.role_editor'|trans }})</td>
+                    </tr>
+                    <tr>
+                        <td>jane_admin</td>
+                        <td>kitten</td>
+                        <td><code>ROLE_ADMIN</code> ({{ 'help.role_moderator'|trans }})</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -70,9 +80,9 @@
                 <div class="panel-body">
                     <p>
                         <span class="label label-success">{{ 'note'|trans }}</span>
-                        {{ 'help.reload_fixtures'|trans }}<br/>
+                        {{ 'Ces utilisateurs sont à votre disposition pour tester l\'application'|trans }}<br/>
 
-                        <code class="console">$ php bin/console doctrine:fixtures:load</code>
+
                     </p>
 
                     <p>
@@ -80,6 +90,13 @@
                         {{ 'help.add_user'|trans }}<br/>
 
                         <code class="console">$ php bin/console app:add-user</code>
+                    </p>
+
+                    <p>
+                        <span class="label label-success">{{ 'tip'|trans }}</span>
+                        {{ 'Affiche tous les utilisateurs'|trans }}<br/>
+
+                        <code class="console">$ php bin/console app:list-users</code>
                     </p>
                 </div>
             </div>

@@ -62,4 +62,6 @@ class AppExtension extends AbstractExtension
 
         return $this->locales;
     }
+
+
 }

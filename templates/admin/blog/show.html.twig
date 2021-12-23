@@ -5,9 +5,9 @@
 {% block main %}
     <h1>{{ post.title }}</h1>
 
-{% if post.image %}
+    {% if post.image %}
         <div class="d-inline p-4">
-            <img src="{{ asset('/uploads/'~post.image) }}" alt="Responsive image" class="img-fluid" width="250">
+            <img src="{{ asset('/uploads/'~post.image) }}" alt="Responsive image" class="img-fluid">
         </div>
     {% endif %}
     <p class="post-metadata">
@@ -19,7 +19,7 @@
         <p class="m-b-0"><strong>{{ 'label.summary'|trans }}</strong>: {{ post.summary }}</p>
     </div>
 
-    nl2br{{ post.content|markdown_to_html|sanitize_html }}
+    {{ post.content|markdown_to_html|sanitize_html }}
 
     {{ include('blog/_post_tags.html.twig') }}
 {% endblock %}

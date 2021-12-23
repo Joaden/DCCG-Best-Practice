@@ -87,6 +87,7 @@ class AddUserCommand extends Command
             ->addArgument('email', InputArgument::OPTIONAL, 'The email of the new user')
             ->addArgument('full-name', InputArgument::OPTIONAL, 'The full name of the new user')
             ->addOption('admin', null, InputOption::VALUE_NONE, 'If set, the user is created as an administrator')
+            ->addArgument('subscribed_at', InputArgument::OPTIONAL, 'date subscribe')
         ;
     }
 
@@ -179,9 +180,10 @@ class AddUserCommand extends Command
         $email = $input->getArgument('email');
         $fullName = $input->getArgument('full-name');
         $isAdmin = $input->getOption('admin');
+        $subscribedAt = $input->getArgument('subscribed_at');
 
         // make sure to validate the user data is correct
-        $this->validateUserData($username, $plainPassword, $email, $fullName);
+        $this->validateUserData($username, $plainPassword, $email, $fullName, $subscribedAt);
 
         // create the user and hash its password
         $user = new User();
@@ -189,6 +191,7 @@ class AddUserCommand extends Command
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
+        $user->setSubscribedAt(new \DateTime('now'));
 
         // See https://symfony.com/doc/current/security.html#c-encoding-passwords
         $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
