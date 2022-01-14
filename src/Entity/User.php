@@ -64,8 +64,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\Length(min=6, max=30)
      */
     private $password;
+
+    /**
+     * @var string
+     *
+     */
+    private $plainPassword;
 
     /**
      * @var array
@@ -80,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $saying;
 
@@ -163,6 +170,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPlainPassword(string $password): void
+    {
+        $this->plainPassword = $password;
     }
 
     /**

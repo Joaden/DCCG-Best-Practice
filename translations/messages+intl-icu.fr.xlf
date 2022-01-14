@@ -171,11 +171,11 @@
             </trans-unit>
             <trans-unit id="action.browse_app">
                 <source>action.browse_app</source>
-                <target>Naviguer sur l'application</target>
+                <target>Naviguer sur le blog</target>
             </trans-unit>
             <trans-unit id="action.browse_admin">
                 <source>action.browse_admin</source>
-                <target>Naviguer sur l'admin</target>
+                <target>Administration</target>
             </trans-unit>
             <trans-unit id="action.edit_user">
                 <source>action.edit_user</source>
@@ -213,6 +213,10 @@
             <trans-unit id="label.email">
                 <source>label.email</source>
                 <target>Mail</target>
+            </trans-unit>
+            <trans-unit id="label.is_verified">
+                <source>label.is_verified</source>
+                <target>Email Confirmé</target>
             </trans-unit>
             <trans-unit id="label.password">
                 <source>label.password</source>
@@ -369,11 +373,11 @@
             </trans-unit>
             <trans-unit id="help.browse_app">
                 <source>help.browse_app</source>
-                <target><![CDATA[Parcourir la <strong>section publique</strong> de l'application de démonstration.]]></target>
+                <target><![CDATA[Parcourir la <strong>section publique</strong> de l'application.]]></target>
             </trans-unit>
             <trans-unit id="help.browse_admin">
                 <source>help.browse_admin</source>
-                <target><![CDATA[Parcourir l'<strong>interface d'administration</strong> de l'application de démonstration.]]></target>
+                <target><![CDATA[Parcourir l'<strong>interface d'administration</strong> de l'application.]]></target>
             </trans-unit>
             <trans-unit id="help.login_users">
                 <source>help.login_users</source>

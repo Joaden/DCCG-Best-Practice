@@ -61,6 +61,9 @@ class SecurityController extends AbstractController
      */
     public function logout(): void
     {
+//        $this->addFlash('success', 'Vous êtes bien déconnecté merci de votre visite');
+//
+//        return $this->render('security/login.html.twig');
         throw new \Exception('This should never be reached!');
     }
 }
