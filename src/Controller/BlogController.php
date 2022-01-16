@@ -13,6 +13,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Event\CommentCreatedEvent;
 use App\Form\CommentType;
 use App\Repository\PostRepository;
@@ -54,11 +55,14 @@ class BlogController extends AbstractController
         }
         $latestPosts = $posts->findLatest($page, $tag);
 
+//        $user = new User();
+//        $user = $this->getUser();
         // Every template name also has two extensions that specify the format and
         // engine for that template.
         // See https://symfony.com/doc/current/templates.html#template-naming
         return $this->render('blog/index.'.$_format.'.twig', [
             'paginator' => $latestPosts,
+//            'user' => $user,
             'tagName' => $tag ? $tag->getName() : null,
         ]);
     }

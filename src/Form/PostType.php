@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -78,6 +78,11 @@ class PostType extends AbstractType
             ->add('publishedAt', DateTimePickerType::class, [
                 'label' => 'label.published_at',
                 'help' => 'help.post_publication',
+            ])
+            ->add('availableAt', DateTimeType::class, [
+                'label' => 'available to',
+                'mapped' => false,
+                'required' => false,
             ])
             ->add('tags', TagsInputType::class, [
                 'label' => 'label.tags',

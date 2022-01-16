@@ -6,7 +6,8 @@ import 'bootstrap-sass/assets/javascripts/bootstrap/alert.js';
 import 'bootstrap-sass/assets/javascripts/bootstrap/collapse.js';
 import 'bootstrap-sass/assets/javascripts/bootstrap/dropdown.js';
 import 'bootstrap-sass/assets/javascripts/bootstrap/modal.js';
-import 'jquery'
+import 'jquery';
+import { Tooltip, Toast, Popover } from 'bootstrap';
 
 // loads the code syntax highlighting library
 import './js/highlight.js';

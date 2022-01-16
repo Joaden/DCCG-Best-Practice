@@ -8,7 +8,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>{% block title %}Symfony Demo application{% endblock %}</title>
+        <title>{% block title %}Symfony DAO CNT application{% endblock %}</title>
         <link rel="alternate" type="application/rss+xml" title="{{ 'rss.title'|trans }}" href="{{ path('blog_rss') }}">
 
         {% block stylesheets %}
@@ -26,7 +26,7 @@
                     <div id="navHoverWave" class="container">
                         <div class="navbar-header col-md-3 col-lg-2">
                             <a class="navbar-brand" href="{{ path('homepage') }}">
-                                Symfony Demo
+                                Homepage
                             </a>
 
                             <button type="button" class="navbar-toggle"
@@ -42,6 +42,11 @@
                             <ul class="nav navbar-nav navbar-right">
 
                                 {% block header_navigation_links %}
+                                    <li>
+                                        <a href="{{ path('quiz') }}">
+                                            <i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.quiz'|trans }}
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href="{{ path('blog_index') }}">
                                             <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
@@ -75,18 +80,20 @@
                                             <span class="sr-only">{{ app.user.username }}</span>
                                         </a>
                                         <ul class="dropdown-menu user" role="menu" aria-labelledby="user">
-                                            {% if app.user.avatar %}
+                                            {% if app.user %}
                                                 <li>
                                                     <a href="">
                                                         <img src="{{ asset('/uploads/'~app.user.avatar) }}" alt="Avatar" class="img-fluid" style="width: 50%">
                                                     </a>
                                                 </li>
-                                            {% endif %}
                                             <li>
-                                                <a href="{{ path('user_edit') }}">
+                                                <a href="{{ path('user_edit', {id: app.user.id}) }}">
                                                     <i class="fa fa-edit" aria-hidden="true"></i> {{ 'menu.user'|trans }}
                                                 </a>
                                             </li>
+                                            {% endif %}
+
+
                                             <li class="divider"></li>
                                             <li>
                                                 <a href="{{ path('security_logout') }}">
@@ -143,7 +150,7 @@
                 <div class="container">
                     <div class="row">
                         <div id="footer-copyright" class="col-md-6">
-                            <p>&copy; {{ 'now'|date('Y') }} - The Symfony Project</p>
+                            <p>&copy; {{ 'now'|date('Y') }} - The Symfony DAO CNT Project</p>
                             {#<p>{{ 'mit_license'|trans }}</p>#}
                             <p>DAO CNT</p>
                         </div>

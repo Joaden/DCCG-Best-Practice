@@ -283,6 +283,10 @@
                 <source>menu.back_to_blog</source>
                 <target>Retour au blog</target>
             </trans-unit>
+            <trans-unit id="menu.quiz">
+                <source>menu.quiz</source>
+                <target>Questionnaire</target>
+            </trans-unit>
             <trans-unit id="menu.homepage">
                 <source>menu.homepage</source>
                 <target>Accueil</target>

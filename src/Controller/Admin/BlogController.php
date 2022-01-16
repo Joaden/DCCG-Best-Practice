@@ -81,6 +81,35 @@ class BlogController extends AbstractController
         // isValid() method already checks whether the form is submitted.
         // However, we explicitly add it to improve code readability.
         // See https://symfony.com/doc/current/forms.html#processing-forms
+//        Using Validator Service
+//        use Symfony\Component\Validator\Validator\ValidatorInterface;
+//        $errors = $validator->validate($author);
+//
+//        if (count($errors) > 0) {
+//            /*
+//             * Uses a __toString method on the $errors variable which is a
+//             * ConstraintViolationList object. This gives us a nice string
+//             * for debugging.
+//             */
+//            $errorsString = (string) $errors;
+//
+//            return new Response($errorsString);
+//        }
+//////////// Second Validation
+//        use Symfony\Component\Validator\Validation;
+//        $validator = Validation::createValidator();
+//        $violations = $validator->validate($article, [
+//            new Length(['min' => 10]),
+//            new NotBlank(),
+//        ]);
+//
+//        if (0 !== count($violations)) {
+//            // Affiche les erreurs
+//            foreach ($violations as $violation) {
+//                echo $violation->getMessage().'<br>';
+//            }
+//        }
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             // On récupère l'image transmise
@@ -90,6 +119,7 @@ class BlogController extends AbstractController
             if ($images) {
                 foreach($images as $image){
                     // On génère un nouveau nom de fichier (guessExtension get le .jpg/png etc..)
+//                    $filename = bin2hex(random_bytes(6)).'.'.$image->guessExtension();
                     $fichier = md5(uniqid()) . 'post.' . $image->guessExtension();
 
                     // On copie le fichier dans le dossier uploads
@@ -157,6 +187,10 @@ class BlogController extends AbstractController
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
+        //  A tester
+//        if ($this->getUser() !== $article->getAuthor() || !$this->isGranted('ROLE_ADMIN')) {
+//            throw $this->createAccessDeniedException();
+//        }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
