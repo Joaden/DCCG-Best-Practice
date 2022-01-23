@@ -18,6 +18,7 @@ use App\Event\CommentCreatedEvent;
 use App\Form\CommentType;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -37,6 +38,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BlogController extends AbstractController
 {
+//    private $logger;
+//
+//    public function __construct(LoggerInterface $dbLogger)
+//    {
+//        $this->logger = $dbLogger;
+//
+//    }
+
     /**
      * @Route("/", defaults={"page": "1", "_format"="html"}, methods="GET", name="blog_index")
      * @Route("/rss.xml", defaults={"page": "1", "_format"="xml"}, methods="GET", name="blog_rss")
@@ -47,7 +56,7 @@ class BlogController extends AbstractController
      * Content-Type header for the response.
      * See https://symfony.com/doc/current/routing.html#special-parameters
      */
-    public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags): Response
+    public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags, LoggerInterface $dbLogger): Response
     {
         $tag = null;
         if ($request->query->has('tag')) {
@@ -55,8 +64,15 @@ class BlogController extends AbstractController
         }
         $latestPosts = $posts->findLatest($page, $tag);
 
-//        $user = new User();
-//        $user = $this->getUser();
+        if ($this->getUser() != null)
+        {
+            $userlogged = $this->getUser()->getFullName();
+            $dbLogger->info('Une visite sur la homepage de '.$userlogged);
+        } else {
+            $dbLogger->info('Une visite noLogged sur la homepage');
+
+        }
+
         // Every template name also has two extensions that specify the format and
         // engine for that template.
         // See https://symfony.com/doc/current/templates.html#template-naming
@@ -75,13 +91,27 @@ class BlogController extends AbstractController
      * value given in the route.
      * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
      */
-    public function postShow(Post $post): Response
+    public function postShow(Post $post, LoggerInterface $dbLogger): Response
     {
         // Symfony's 'dump()' function is an improved version of PHP's 'var_dump()' but
         // it's not available in the 'prod' environment to prevent leaking sensitive information.
         // It can be used both in PHP files and Twig templates, but it requires to
         // have enabled the DebugBundle. Uncomment the following line to see it in action:
         //
+        if ($this->getUser() != null)
+        {
+            // si user logged
+            $userlogged = $this->getUser()->getFullName();
+//            $dbLogger->info('View article id:xx, par '.$userlogged);
+
+            // On add un nbr de view sur le post
+
+        } else {
+            $dbLogger->info('View post noLogged');
+            // On add un nbr de view sur le post
+
+        }
+
         // dump($post, $this->getUser(), new \DateTime());
 
         return $this->render('blog/post_show.html.twig', ['post' => $post]);
@@ -96,7 +126,7 @@ class BlogController extends AbstractController
      * (postSlug) doesn't match any of the Doctrine entity properties (slug).
      * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html#doctrine-converter
      */
-    public function commentNew(Request $request, Post $post, EventDispatcherInterface $eventDispatcher): Response
+    public function commentNew(Request $request, Post $post, EventDispatcherInterface $eventDispatcher, LoggerInterface $dbLogger): Response
     {
         $comment = new Comment();
         $comment->setAuthor($this->getUser());
@@ -105,10 +135,25 @@ class BlogController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
+//        dump($request->get('post')->getId());
+        // if error
+//        $this->logger->error('Erreur sur un commentaire posté sur l\'article id:xx, par '.$userlogged.');
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
+
+
+            if ($this->getUser() != null)
+            {
+            $postID = $request->get('post')->getId();
+            $userlogged = $this->getUser()->getFullName();
+            $dbLogger->info('Create comment post id:'.$postID.', par '.$userlogged);
+            } else {
+                $dbLogger->error('Create comment post by a UNKNOW');
+
+            }
 
             // When an event is dispatched, Symfony notifies it to all the listeners
             // and subscribers registered to it. Listeners can modify the information

@@ -1,0 +1,177 @@
+{#{% extends 'front/Site/' ~ name_repo ~ '/views/Site/menu.html.twig' %}#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact Daos{% endblock %}
+
+{% block stylesheets %}{{ parent() }}
+    {#<link href="{{ asset('bundles/frontsite/plugins/formvalidation/dist/css/formValidation.min.css') }}" rel="stylesheet" type="text/css">#}
+{% endblock %}
+{% block body %}
+
+
+
+
+
+    <section class=" ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2 class="title" style="padding: 25px">CONTACTER
+                        {#{{ name_site }}#}
+                    </h2>
+                    <h6 class="sub_title">VOUS SOUHAITEZ NOUS CONTACTER ?</h6>
+                </div>
+            </div>
+
+
+
+            <div class="row" style="margin-top: 15px">
+                <div class="col-md-3">
+                    <div class="panel">
+                        Avant d'envoyer votre message, merci de consulter l'aide ci-dessous, et de vérifier si votre question ne s'y trouve pas.
+                        <div class="button_faq" style="padding: 21px 0 3px 0;">
+                            <a href="#" class="button button_green">
+                                {#<a href="{{ path('page', {'slug': 'faq'}) }}" class="button button_green">#}
+                                FAQ
+                            </a>
+                        </div>
+                        <br />
+                        {#Par téléphone  <br /> {{ tel_contact }}#}
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        <div class="panel" style="padding: 15px;">Votre message a bien été envoyé !</div>
+                    {% endfor %}
+
+
+                    <form action="#" method="post" id="contact-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="checkbox">
+                                    <input type="radio" class="name border" name="contact[action]" value="registration">
+                                    Inscription                                </label>
+                                <label class="checkbox">
+                                    <input type="radio" class="name border" name="contact[action]" value="désinscription">
+                                    Désinscription                                </label>
+                                <label class="checkbox">
+                                    <input type="radio" class="name border" name="contact[action]" value="other">
+                                    Autre                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="padding_form">
+                                    <input placeholder="Prénom *" type="text" class="form-control" name="contact[name]" value="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="padding_form">
+                                    <input placeholder="Nom *" type="text" class="form-control" name="contact[last_name]" value="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="padding_form">
+                                    <input placeholder="Email *" type="text" class="form-control" name="contact[mail]" value="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="padding_form">
+                                    <textarea placeholder="Sujet de message *" rows="8" class="form-control" name="contact[message]"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="note text-left ">* Champs obligatoires</p>
+                                <div class="button_faq" style="padding: 0 0 13px 0;">
+                                    <button type="submit" class="button button_green">Envoyer</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </section>
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}{{ parent() }}
+    {#<script src="{{ asset('bundles/frontsite/plugins/formvalidation/dist/js/formValidation.min.js') }}"></script>#}
+    <script>
+        jQuery(document).ready(function() {
+
+
+            $('#contact-form').bootstrapValidator({
+                framework: 'bootstrap',
+                err: {
+                    container: 'tooltip'
+                },
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    'contact[action]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Veuillez sélectionner'
+                            }
+                        }
+                    },
+                    'contact[name]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Prenom obligatoire'
+                            }
+                        }
+                    },
+                    'contact[last_name]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Nom obligatoire'
+                            }
+                        }
+                    },
+                    'contact[mail]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Nom obligatoire'
+                            }
+                        }
+                    },
+                    'contact[message]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Message obligatoire'
+                            }
+                        }
+                    }
+                }
+
+            });
+        });
+    </script>
+{% endblock %}

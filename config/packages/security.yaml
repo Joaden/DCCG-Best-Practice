@@ -71,6 +71,7 @@ security:
         - { path: '^/(%app_locales%)/admin', roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/auth, roles: ROLE_MODERATOR }
+        - { path: ^/moderator, roles: ROLE_MODERATOR }
         - { path: ^/user, roles: ROLE_USER }
         - { path: ^/profil, roles: ROLE_USER }
 

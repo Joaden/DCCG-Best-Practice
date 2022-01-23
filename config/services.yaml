@@ -10,6 +10,25 @@ parameters:
     app_locales: ar|en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt|bs|sr_Cyrl|sr_Latn
     app.notifications.email_sender: anonymous@example.com
     admin_email: 'admin@gmail.fr'
+#    maintenanceFilePath: '%kernel.project_dir%/public/.maintenance'
+    envTest: 1
+    link_site: 'http://daos-cnt.com'
+    link_site_short: daos-cnt.com
+    link_landing: 'http://daos-cnt.com/lien'
+    mail_contact: 'dao.cnt@outlook.fr'
+    tel_contact: '0646076660'
+    name_repo: Daos
+    name_site: daos-cnt.com
+    societe: 'DAOS'
+    societe_street: '3 route de Mandres'
+    societe_city: 'Brie Comte Robert'
+    societe_cp: '77170'
+    societe_country: 'France'
+    siren: ''
+    facebook: ''
+    github: ''
+    linkedin: ''
+    nameSiteConfig: daos_
 
 services:
     # default configuration for services in *this* file
@@ -35,6 +54,21 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+
+    monolog.dbHandler:
+        class: App\Utils\DbHandler
+
+    monolog.dbProcessor:
+        class: App\Utils\dbProcessor
+        tags:
+            - {name: monolog.processor, handler: dbHandler}
+#
+#    App\Controller\BlogController:
+#        arguments: ['@monolog.logger.db']
+#
+#    App\Controller\Admin\BlogController:
+#        arguments: ['@monolog.logger.db']
+
 
     # when the service definition only contains arguments, you can omit the
     # 'arguments' key and define the arguments just below the service class

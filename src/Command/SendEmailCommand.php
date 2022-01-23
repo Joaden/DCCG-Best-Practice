@@ -5,7 +5,8 @@ namespace App\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Mailer\Bridge\Google\Smtp\GmailTransport;
-use Symfony\Component\Mime\TemplatedEmail;
+//use Symfony\Component\Mime\TemplatedEmail;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -38,8 +39,8 @@ class SendEmailCommand extends Command
         // If you want use htmlTemplate and context function you need use TemplatedEmail
         // instead of Email object
         $email = (new TemplatedEmail())
-            ->from('test42@gmail.com')
-            ->to('test42@gmail.com')
+            ->from('denis@gmail.com')
+            ->to('denis@gmail.com')
             //->cc('exemple@mail.com')
             //->bcc('exemple@mail.com')
             //->replyTo('test42@gmail.com')

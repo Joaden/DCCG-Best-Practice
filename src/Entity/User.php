@@ -70,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string
-     *
+     * @Assert\Length(max=4096)
      */
     private $plainPassword;
 
@@ -116,15 +116,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $subscribed_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Log::class, mappedBy="User")
+     */
+    private $logs;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
+        $this->logs = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
+//
+//    public function __toString()
+//    {
+//        return $this->name;
+//    }
 
     public function setFullName(string $fullName): void
     {
@@ -167,14 +179,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
     }
 
     public function getPlainPassword(): ?string
     {
-        return $this->password;
+        return $this->plainPassword;
     }
 
     public function setPlainPassword(string $password): void
@@ -224,7 +238,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // if you had a plainPassword property, you'd nullify it here
-        // $this->plainPassword = null;
+         $this->plainPassword = null;
     }
 
     /**
@@ -350,5 +364,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isVerified(): bool
     {
         return $this->isVerified;
+    }
+
+    /**
+     * @return Collection|Log[]
+     */
+    public function getLogs(): Collection
+    {
+        return $this->logs;
+    }
+
+    public function addLog(Log $log): self
+    {
+        if (!$this->logs->contains($log)) {
+            $this->logs[] = $log;
+            $log->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLog(Log $log): self
+    {
+        if ($this->logs->removeElement($log)) {
+            // set the owning side to null (unless already changed)
+            if ($log->getUser() === $this) {
+                $log->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

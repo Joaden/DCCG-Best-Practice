@@ -43,15 +43,30 @@
 
                                 {% block header_navigation_links %}
                                     <li>
-                                        <a href="{{ path('quiz') }}">
-                                            <i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.quiz'|trans }}
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="{{ path('blog_index') }}">
                                             <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ path('contact_form') }}">
+                                            <i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.contact'|trans }}
+                                        </a>
+                                    </li>
+                                    {#<li>#}
+                                        {#<a href="{{ path('quiz') }}">#}
+                                            {#<i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.quiz'|trans }}#}
+                                        {#</a>#}
+                                    {#</li>#}
+
+
+                                    {% if is_granted('ROLE_MODERATOR') %}
+                                        <li>
+                                            <a href="{{ path('moderator_index') }}">
+                                                <i class="fa fa-warning" aria-hidden="true">Reports</i>
+                                            </a>
+                                        </li>
+
+                                    {% endif %}
 
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li>
@@ -152,7 +167,7 @@
                         <div id="footer-copyright" class="col-md-6">
                             <p>&copy; {{ 'now'|date('Y') }} - The Symfony DAO CNT Project</p>
                             {#<p>{{ 'mit_license'|trans }}</p>#}
-                            <p>DAO CNT</p>
+                            <p>Tous droits réservés</p>
                         </div>
                         <div id="footer-resources" class="col-md-6">
                             <p>

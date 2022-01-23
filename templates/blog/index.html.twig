@@ -12,7 +12,46 @@
             </h2>
             {% if post.image %}
                 <div class="d-inline p-4">
-                    <img src="{{ asset('/uploads/'~post.image) }}" alt="Responsive image" class="img-fluid max-width: 100%" >
+                    <a href="{{ path('blog_post', {slug: post.slug}) }}">
+                    {#<img src="{{ asset('/uploads/'~post.image) }}" alt="Responsive image" class="img-fluid max-width: 100%" >#}
+                        {#<img src="{{ asset('/uploads/'~post.image) | imagine_filter('medium') }}" alt="image article" class="img-fluid max-width: 100%" >#}
+                    {#</a>#}
+                {#</div>#}
+                        <picture class="media-object">
+                            <source media="(max-width: 767px)"
+                                    sizes="(max-width: 1534px) 100vw, 1534px"
+                                    srcset="
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('medium') }} 750w,
+                                        {#{{ asset('/uploads/'~post.image) | imagine_filter('echelle') }} 750w,#}
+                                        {#{{ asset('images/elephant_1131.jpg') }} 1131w,#}
+                                        {#{{ asset('images/elephant_1415.jpg') }} 1415w,#}
+                                        {#{{ asset('images/elephant_1534.jpg') }} 1534w#}
+                                        ">
+
+                            <source media="(min-width: 768px) and (max-width: 1199px)"
+                                    sizes="(max-width: 1080px) 50vw, 1200px"
+                                    srcset="
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('thumb') }} 384w,
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('medium') }} 785w">
+
+                                        {#{{ asset('images/elephant_785.jpg') }} 785w,#}
+                                        {#{{ asset('images/elephant_1026.jpg') }} 1026w,#}
+                                        {#{{ asset('images/elephant_1200.jpg') }} 1200w"#}
+
+                            <img id="mediaCaseObject" sizes="(max-width: 3840px) 50vw, 1920px"
+                                 srcset="
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('large') }} 600w,
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('big') }} 1920w"
+
+                                        {#{{ asset('images/elephant_600.jpg') }} 600w,#}
+                                        {#{{ asset('images/elephant_1166.jpg') }} 1166w,#}
+                                        {#{{ asset('images/elephant_1585.jpg') }} 1585w,#}
+                                        {#{{ asset('images/elephant_1920.jpg') }} 1920w"#}
+
+                                 src="{{ asset('/uploads/'~post.image) | imagine_filter('echelle') }}"
+                                 alt="image article">
+                        </picture>
+                    </a>
                 </div>
             {% endif %}
 

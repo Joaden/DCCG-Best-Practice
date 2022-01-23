@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
+use App\Security\UsersAuthenticator;
+
 use App\Repository\UserRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +16,8 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+
 
 class RegistrationController extends AbstractController
 {
@@ -27,25 +31,29 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,  GuardAuthenticatorHandler $guardHandler): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+             dd($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
 //                if($user->getPlainPassword()){
 //                    $pwd
 //                }
+//
+//                $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+//
+//                $user->setPassword($password);
+
                 $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+                    $form->get('plainPassword')->getData()));
 
-//             dd($user);
+             dd($user);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -64,13 +72,17 @@ class RegistrationController extends AbstractController
             );
             // do anything else you need here, like send an email
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
-//            return $this->redirectToRoute('blog_index');
+//            return $guardHandler->authenticateUserAndHandleSuccess(
+//                $user,
+//                $request,
+//                $authenticator,
+//                'main' // firewall name in security.yaml
+//            );
+
+            $this->addFlash('success', 'Compte créé avec succès!');
+//            $this->addFlash('warning', 'Compte doit être validé par email!');
+
+            return $this->redirectToRoute('security_login');
         }
 
         return $this->render('registration/register.html.twig', [

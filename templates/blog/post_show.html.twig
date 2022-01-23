@@ -7,7 +7,8 @@
 
     {% if post.image %}
         <div class="d-inline">
-            <img src="{{ asset('/uploads/'~post.image) }}" alt="Responsive image" class="img-fluid  max-width: 100%" >
+            {#<img src="{{ asset('/uploads/'~post.image) | imagine_filter('medium') }}" alt="Responsive image" class="img-fluid  max-width: 100%" >#}
+            <img src="{{ asset('/uploads/'~post.image) | imagine_filter('big') }}" alt="Responsive image">
         </div>
     {% endif %}
     <p class="post-metadata">

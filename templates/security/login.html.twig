@@ -39,7 +39,7 @@
         </div>
 
         <div class="well">
-            <legend>{{ 'Si vous n\'avez pas de compte'|trans }} => <a href="{{ path('go_register') }}">S'inscrire</a></legend>
+            <legend>{{ 'Si vous n\'avez pas de compte'|trans }} => <a href="{{ path('app_register') }}">S'inscrire</a></legend>
         </div>
         <div id="login-help" class="col-sm-7">
             <h3>
@@ -66,49 +66,21 @@
                         {#<td>kitten</td>#}
                         {#<td><code>ROLE_ADMIN</code> ({{ 'help.role_admin'|trans }})</td>#}
                     {#</tr>#}
-                    <tr>
-                        <td>jacky_editor</td>
-                        <td>kitten</td>
-                        <td><code>ROLE_EDITOR</code> ({{ 'editeur'|trans }})</td>
-                    </tr>
-                    <tr>
-                        <td>julie_moderator</td>
-                        <td>kitten</td>
-                        <td><code>ROLE_MODERATOR</code> ({{ 'moderateur'|trans }})</td>
-                    </tr>
+                    {#<tr>#}
+                        {#<td>jacky_editor</td>#}
+                        {#<td>kitten</td>#}
+                        {#<td><code>ROLE_EDITOR</code> ({{ 'editeur'|trans }})</td>#}
+                    {#</tr>#}
+                    {#<tr>#}
+                        {#<td>julie_moderator</td>#}
+                        {#<td>kitten</td>#}
+                        {#<td><code>ROLE_MODERATOR</code> ({{ 'moderateur'|trans }})</td>#}
+                    {#</tr>#}
                 </tbody>
             </table>
 
-            <div id="login-users-help" class="panel panel-default">
-                <div class="panel-body">
-                    <p>
-                        <span class="label label-success">{{ 'note'|trans }}</span>
-                        {{ 'Ces utilisateurs sont à votre disposition pour tester l\'application'|trans }}<br/>
 
-
-                    </p>
-
-                    <p>
-                        <span class="label label-success">{{ 'tip'|trans }}</span>
-                        {{ 'help.add_user'|trans }}<br/>
-
-                        <code class="console">$ php bin/console app:add-user</code>
-                    </p>
-
-                    <p>
-                        <span class="label label-success">{{ 'tip'|trans }}</span>
-                        {{ 'Affiche tous les utilisateurs'|trans }}<br/>
-
-                        <code class="console">$ php bin/console app:list-users</code>
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
 {% endblock %}
 
-{% block sidebar %}
-    {{ parent() }}
-
-    {{ show_source_code(_self) }}
-{% endblock %}
