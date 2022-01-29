@@ -31,15 +31,34 @@
 
         <div class="col-sm-6 homepageDiv">
             <div class="jumbotron">
-                <p>
-                    {#{{ 'help.browse_admin'|trans|raw }}#}
-                    {{ 'help.browse_login'|trans|raw }}
-                </p>
-                <p>
-                    <a class="btn btn-primary btn-lg" href="{{ path('security_login') }}">
-                        <i class="fa fa-lock" aria-hidden="true"></i> {{ 'action.browse_login'|trans }}
-                    </a>
-                </p>
+
+                {% if app.user %}
+                    <p>
+                        {#{{ 'help.browse_admin'|trans|raw }}#}
+                        {{ 'help.browse_logout'|trans|raw }}
+                    </p>
+                    <p>
+                        <a class="btn btn-primary btn-lg" href="{{ path('security_logout') }}">
+                            <i class="fa fa-lock" aria-hidden="true"></i> {{ 'action.browse_logout'|trans }}
+                        </a>
+                 </p>
+                {% else %}
+                    <p>
+                        {#{{ 'help.browse_admin'|trans|raw }}#}
+                        {{ 'help.browse_login'|trans|raw }}
+                    </p>
+                    <p>
+                        <a class="btn btn-primary btn-lg" href="{{ path('security_login') }}">
+                            <i class="fa fa-lock" aria-hidden="true"></i> {{ 'action.browse_login'|trans }}
+                        </a>
+                    </p>
+                    <p>
+                        <a class="btn btn-primary btn-lg" href="{{ path('app_register') }}">
+                            <i class="fa fa-lock" aria-hidden="true"></i> {{ 'action.browse_register'|trans }}
+                        </a>
+                    </p>
+                {% endif %}
+
             </div>
         </div>
     </div>

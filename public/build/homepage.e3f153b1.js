@@ -1,1 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[131],{4461:(e,n,u)=>{var c=u(9755);c(document).ready((function(){c(".homepageDiv").hover((function(){c(this).css("background-coloer","lightblue")}))}))}},e=>{e.O(0,[755],(()=>{return n=4461,e(e.s=n);var n}));e.O()}]);

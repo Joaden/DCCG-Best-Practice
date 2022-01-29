@@ -13,23 +13,27 @@
             <div class="section col-6" style="border: 3px solid #1C6EA4;margin:20px;padding:20px;">
                 <div class="row-flex col-12">
 
-                <h1>Register</h1>
+                <h1>Enregistrement</h1>
 
-                {{ form_start(registrationForm) }}
+                {{ form_start(registrationForm, {attr: {novalidate: 'novalidate'}}) }}
 
-                    {{ form_row(registrationForm.full_name) }}
+                    {#{% for champ in registrationForm %}#}
+                    {#{{ form_row(champ) }}#}
+                    {#{% endfor %}#}
 
-                    {{ form_row(registrationForm.username) }}
+                    {{ form_widget(registrationForm.full_name) }}
 
-                    {{ form_row(registrationForm.email) }}
+                    {{ form_widget(registrationForm.username) }}
 
-                    {{ form_row(registrationForm.plainPassword.first) }}
+                    {{ form_widget(registrationForm.email) }}
 
-                    {{ form_row(registrationForm.plainPassword.second) }}
+                    {{ form_widget(registrationForm.plainPassword.first) }}
 
-                    {#{{ form_row(registrationForm.plainPassword.second) }}#}
+                    {{ form_widget(registrationForm.plainPassword.second) }}
 
-                    {{ form_row(registrationForm.agreeTerms) }}
+                    {{ form_widget(registrationForm.agreeTerms) }}
+
+                    {{ form_widget(registrationForm) }}
 
                     <button type="submit" class="btn">Register</button>
                 {{ form_end(registrationForm) }}

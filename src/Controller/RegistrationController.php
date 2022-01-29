@@ -4,15 +4,20 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Manager\UserManager;
 use App\Security\EmailVerifier;
 use App\Security\UsersAuthenticator;
+use Psr\Log\LoggerInterface;
 
 use App\Repository\UserRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -31,55 +36,77 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,  GuardAuthenticatorHandler $guardHandler): Response
+    public function register(Request $request, LoggerInterface $dbLogger, MailerInterface $mailer, UserPasswordHasherInterface $PasswordHasher, UserManager $userManager , UserPasswordEncoderInterface $passwordEncoder,  GuardAuthenticatorHandler $guardHandler): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-             dd($user);
+dump('before Setpassword');
+
+
+dump('before Submit');
+//dd($password);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-//                if($user->getPlainPassword()){
-//                    $pwd
-//                }
-//
-//                $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-//
-//                $user->setPassword($password);
 
-                $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()));
+            $entityManager = $this->getDoctrine()->getManager();
+dump('before createNewUser');
+           $password =  $user->setPassword(
+            $passwordEncoder->encodePassword(
+                $user,
+                $form->get('plainPassword')->getData()));
+//            $user = $userManager->createNewUser($user, $form->get('plainPassword')->getData());
 
-             dd($user);
+dump('before Mail Admin');
 
+         // get admin mails
+            $mailAdmin = $entityManager->getRepository(User::class)->getAdminMails();
+dump('After Get Mail Admin');
+//dd($mailAdmin);
+//$mailAdmin = 'dao.cnt@outlook.fr';
+
+dump('FLUSH');
+            $user->setRoles(['ROLE_USER']);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            $this->addFlash('success', 'Un mail de confirmation vous a été envoyé, merci de valider votre compte');
+            $this->addFlash('success', 'Compte créé avec succès!');
 
-//            dd($user);
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
+            if(false === empty($mailAdmin))
+            {
+    dump('before emailVerifier ');
+dump($mailAdmin);
+
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+//                $email = (new TemplatedEmail())
+                    (new TemplatedEmail())
                     ->from(new Address('no-reply-dao-cnt@outlook.fr', 'Blog Dao Cnt'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-            // do anything else you need here, like send an email
 
-//            return $guardHandler->authenticateUserAndHandleSuccess(
-//                $user,
-//                $request,
-//                $authenticator,
-//                'main' // firewall name in security.yaml
-//            );
+                );
+dump('mailer->send');
 
-            $this->addFlash('success', 'Compte créé avec succès!');
+//                $mailer->send($email);
+
+            }
+
+//            if ($this->getUser() != null)
+//            {
+//                $userlogged = $this->getUser()->getFullName();
+//                $postID = $request->get('post')->getId();
+//
+//                $dbLogger->info('Create User id:'.$postID.' by '.$userlogged);
+//            } else {
+//                $dbLogger->error('Edit post id:'.$postID.' by an UNKNOW');
+//
+//            }
+
+            $this->addFlash('success', 'Un mail de confirmation vous a été envoyé, merci de valider votre compte');
+
 //            $this->addFlash('warning', 'Compte doit être validé par email!');
 
             return $this->redirectToRoute('security_login');
@@ -90,19 +117,14 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/goregister", name="go_register")
-     */
-    public function go_register()
-    {
-        return $this->redirectToRoute('app_register');
-    }
 
     /**
      * @Route("/verify/email", name="app_verify_email")
      */
     public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
     {
+        dump('function verifyUserEmail ');
+
         $id = $request->get('id');
 
         if (null === $id) {
@@ -114,6 +136,7 @@ class RegistrationController extends AbstractController
         if (null === $user) {
             return $this->redirectToRoute('app_register');
         }
+        dump('emailVerifier->handleEmailConfirmation');
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {

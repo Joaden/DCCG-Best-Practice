@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=100, nullable=true)
      * @Assert\NotBlank()
      */
     private $fullName;
@@ -46,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
      */
@@ -55,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\Email()
      */
     private $email;
@@ -63,16 +63,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\Length(min=6, max=30)
      */
     private $password;
 
-    /**
-     * @var string
-     * @Assert\Length(max=4096)
-     */
-    private $plainPassword;
+//    /**
+//     * @var string
+//     * @Assert\Length(max=4096)
+//     */
+//    private $plainPassword;
 
     /**
      * @var array
@@ -87,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $saying;
 
@@ -97,7 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $avatar;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", length=11, nullable=true)
      */
     private $gender;
 
@@ -121,10 +121,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $logs;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $date_last_log;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $auth_code;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
         $this->logs = new ArrayCollection();
+        $this->subscribed_at = new \DateTime();
+
     }
 
     public function getId(): ?int
@@ -214,6 +226,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
+    }
+
+
+
+    public function hasRole(string $roleSearch): bool
+    {
+        foreach($this->roles as $role)
+        {
+            if($roleSearch == $role){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -392,6 +417,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $log->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateLastLog(): ?\DateTimeInterface
+    {
+        return $this->date_last_log;
+    }
+
+    public function setDateLastLog(?\DateTimeInterface $date_last_log): self
+    {
+        $this->date_last_log = $date_last_log;
+
+        return $this;
+    }
+
+    public function getAuthCode(): ?string
+    {
+        return $this->auth_code;
+    }
+
+    public function setAuthCode(?string $auth_code): self
+    {
+        $this->auth_code = $auth_code;
 
         return $this;
     }

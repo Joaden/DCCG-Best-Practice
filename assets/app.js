@@ -17,3 +17,17 @@ import './js/doclinks.js';
 
 // start the Stimulus application
 import './bootstrap';
+
+//
+//$(function() {
+////                setTimeOut("window.location.href='login.php';", 300000);
+//    let timeout;
+//
+//    function myFunction() {
+//        timeout = setTimeout(alertFunc, 3000);
+//    }
+//
+//    function alertFunc() {
+//        alert("Vous allez être déconnecté!");
+//    }
+//})

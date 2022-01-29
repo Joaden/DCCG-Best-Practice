@@ -177,9 +177,17 @@
                 <source>action.browse_admin</source>
                 <target>Administration</target>
             </trans-unit>
+           <trans-unit id="action.browse_logout">
+               <source>action.browse_logout</source>
+               <target>Déconnexion</target>
+           </trans-unit>
             <trans-unit id="action.browse_login">
                 <source>action.browse_login</source>
                 <target>Se connecter</target>
+            </trans-unit>
+            <trans-unit id="action.browse_register">
+                <source>action.browse_register</source>
+                <target>S'inscrire</target>
             </trans-unit>
             <trans-unit id="action.edit_user">
                 <source>action.edit_user</source>
@@ -394,6 +402,10 @@
             <trans-unit id="help.browse_login">
                 <source>help.browse_login</source>
                 <target><![CDATA[Accédez au <strong>formulaire de connexion</strong> de l'application.]]></target>
+            </trans-unit>
+            <trans-unit id="help.browse_logout">
+                <source>help.browse_logout</source>
+                <target><![CDATA[<strong>Se déconnecter</strong>]]></target>
             </trans-unit>
             <trans-unit id="help.login_users">
                 <source>help.login_users</source>

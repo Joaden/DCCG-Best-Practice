@@ -47,11 +47,12 @@
                                             <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="{{ path('contact_form') }}">
-                                            <i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.contact'|trans }}
-                                        </a>
-                                    </li>
+
+                                    {#<li>#}
+                                        {#<a href="{{ path('contact_form') }}">#}
+                                            {#<i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.contact'|trans }}#}
+                                        {#</a>#}
+                                    {#</li>#}
                                     {#<li>#}
                                         {#<a href="{{ path('quiz') }}">#}
                                             {#<i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.quiz'|trans }}#}
@@ -59,14 +60,14 @@
                                     {#</li>#}
 
 
-                                    {% if is_granted('ROLE_MODERATOR') %}
-                                        <li>
-                                            <a href="{{ path('moderator_index') }}">
-                                                <i class="fa fa-warning" aria-hidden="true">Reports</i>
-                                            </a>
-                                        </li>
+                                    {#{% if is_granted('ROLE_MODERATOR') %}#}
+                                        {#<li>#}
+                                            {#<a href="{{ path('moderator_index') }}">#}
+                                                {#<i class="fa fa-warning" aria-hidden="true">Reports</i>#}
+                                            {#</a>#}
+                                        {#</li>#}
 
-                                    {% endif %}
+                                    {#{% endif %}#}
 
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li>
@@ -80,7 +81,6 @@
                                             </a>
                                         </li>
                                     {% endif %}
-                                {% endblock %}
 
                                 <li>
                                     <a href="{{ path('blog_search') }}"> <i class="fa fa-search"></i> {{ 'menu.search'|trans }}</a>
@@ -101,11 +101,11 @@
                                                         <img src="{{ asset('/uploads/'~app.user.avatar) }}" alt="Avatar" class="img-fluid" style="width: 50%">
                                                     </a>
                                                 </li>
-                                            <li>
-                                                <a href="{{ path('user_edit', {id: app.user.id}) }}">
-                                                    <i class="fa fa-edit" aria-hidden="true"></i> {{ 'menu.user'|trans }}
-                                                </a>
-                                            </li>
+                                                <li>
+                                                    <a href="{{ path('user_edit', {id: app.user.id}) }}">
+                                                        <i class="fa fa-edit" aria-hidden="true"></i> {{ 'menu.user'|trans }}
+                                                    </a>
+                                                </li>
                                             {% endif %}
 
 
@@ -131,6 +131,7 @@
                                         {% endfor %}
                                     </ul>
                                 </li>
+                                {% endblock %}
                             </ul>
                         </div>
                     </div>
@@ -192,6 +193,9 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
+        <script>
+
+        </script>
         {# it's not mandatory to set the timezone in localizeddate(). This is done to
            avoid errors when the 'intl' PHP extension is not available and the application
            is forced to use the limited "intl polyfill", which only supports UTC and GMT #}

@@ -2,67 +2,53 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.725dd7e0.js",
-        "/build/755.5a8586e9.js",
-        "/build/31.6c927f05.js",
-        "/build/169.e29dccdb.js",
-        "/build/app.b7832d7c.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_jquery_dist_jquery_js.js",
+        "/build/vendors-node_modules_core-js_internals_add-to-unscopables_js-node_modules_core-js_internals_a-dd2802.js",
+        "/build/vendors-node_modules_core-js_modules_es_string_replace_js.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_bootstrap-sass_assets-80efd5.js",
+        "/build/app.js"
       ],
       "css": [
-        "/build/169.14a1c34e.css",
-        "/build/app.ac992678.css"
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_bootstrap-sass_assets-80efd5.css",
+        "/build/app.css"
       ]
     },
     "login": {
       "js": [
-        "/build/runtime.725dd7e0.js",
-        "/build/755.5a8586e9.js",
-        "/build/login.dc44c276.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_jquery_dist_jquery_js.js",
+        "/build/login.js"
       ]
     },
     "admin": {
       "js": [
-        "/build/runtime.725dd7e0.js",
-        "/build/755.5a8586e9.js",
-        "/build/31.6c927f05.js",
-        "/build/919.46a4b8c3.js",
-        "/build/admin.e4f7049e.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_jquery_dist_jquery_js.js",
+        "/build/vendors-node_modules_core-js_internals_add-to-unscopables_js-node_modules_core-js_internals_a-dd2802.js",
+        "/build/vendors-node_modules_bootstrap-tagsinput_dist_bootstrap-tagsinput_js-node_modules_core-js_mod-c78b2d.js",
+        "/build/admin.js"
       ],
       "css": [
-        "/build/admin.691f9b8c.css"
+        "/build/admin.css"
       ]
     },
     "search": {
       "js": [
-        "/build/runtime.725dd7e0.js",
-        "/build/755.5a8586e9.js",
-        "/build/31.6c927f05.js",
-        "/build/760.8879fdb5.js",
-        "/build/search.525da365.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_jquery_dist_jquery_js.js",
+        "/build/vendors-node_modules_core-js_internals_add-to-unscopables_js-node_modules_core-js_internals_a-dd2802.js",
+        "/build/vendors-node_modules_core-js_modules_es_string_replace_js.js",
+        "/build/vendors-node_modules_core-js_modules_es_string_iterator_js-node_modules_core-js_modules_es_st-a38065.js",
+        "/build/search.js"
       ]
     },
     "homepage": {
       "js": [
-        "/build/runtime.725dd7e0.js",
-        "/build/755.5a8586e9.js",
-        "/build/homepage.e3f153b1.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_jquery_dist_jquery_js.js",
+        "/build/homepage.js"
       ]
     }
-  },
-  "integrity": {
-    "/build/runtime.725dd7e0.js": "sha384-hxxyiHWh7m1chxtGsnv5Q+8EVd2zZX76Ynw8lBV/Ft/bMkHto90Y0Zw3JX89yFMl",
-    "/build/755.5a8586e9.js": "sha384-gr4pBhc/crsd3k0Y6LPY6EzskQ1errcIxrCcR3mXD0bY9Ud2y2N0jCEomRCZiY9G",
-    "/build/31.6c927f05.js": "sha384-qGTwFv/SIp+7kNk5ywBGuTi4gso/8r/Z1iY6y3+S6OZUQBlLNwEVHguVp2uAWEnX",
-    "/build/169.e29dccdb.js": "sha384-4NwQtdt/OjSzp1cMssYMF7TSKj5cN0dWgpglVDquraxFkJEr9+dmLX0U60hKe4qb",
-    "/build/app.b7832d7c.js": "sha384-tx2AGIY/A92qHOyjZRUBudKW7r6tqfPDNZDYWmfVI++ZHHkSH9zdz8sThU74TUzo",
-    "/build/169.14a1c34e.css": "sha384-HI6UL8JP084OgNdqMnTKWIDmXw5qo1M4TrSWkMnwKF19DtV3Pkt0h7KzQxa1uFc+",
-    "/build/app.ac992678.css": "sha384-ICPCCj5CXbWgl5Qqe/h85MC7oJI7tfgk7ZWIPsFm93L6gG/fHXfzBERdusSM7Fy4",
-    "/build/login.dc44c276.js": "sha384-9KfmtrQDklyWMFubLxVfzitikdIUxSsQOCJlsPZcKo7aFlbhPoqRymMx8XX5cet6",
-    "/build/919.46a4b8c3.js": "sha384-dCpcMj/QhPM8GtFoD+Qe5ut6/FbNaQRkxFoDUvMkbXb3nz7EMwAnxeFaeFo/G+L2",
-    "/build/admin.e4f7049e.js": "sha384-DhBu+CjRseS2dp9IyWgrUjPdUyEPaYefMC349NQCculCqryOcVf1QO0d5pPVUqmJ",
-    "/build/admin.691f9b8c.css": "sha384-4DrM6czCoIi/wUbtZloc82FNEKtnOn/srW8e1ZtNqcmENgNy5xZeINeFptq+p56H",
-    "/build/760.8879fdb5.js": "sha384-OquD4KZg+S61gdZi2XQ1BMwuwH5e7mHpRWP2YLXTn+F8K/czI7QY6k+pPaLWhsGN",
-    "/build/search.525da365.js": "sha384-edz6jV7vcUgRRxaFZirAo+8/nCMi+egJJTsUoIL8Xck++85SANplYScSMM+z5jyX",
-    "/build/homepage.e3f153b1.js": "sha384-2HxRZqP3VvJBb8RCMRIegcLxwmafuvw7lwn4AHQGdBvdf5eqrNo+yuGSyLOGFwZg"
   }
 }
