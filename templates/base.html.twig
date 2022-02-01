@@ -10,7 +10,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>{% block title %}Symfony DAO CNT application{% endblock %}</title>
         <link rel="alternate" type="application/rss+xml" title="{{ 'rss.title'|trans }}" href="{{ path('blog_rss') }}">
-
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -81,6 +80,7 @@
                                             </a>
                                         </li>
                                     {% endif %}
+                                {% endblock %}
 
                                 <li>
                                     <a href="{{ path('blog_search') }}"> <i class="fa fa-search"></i> {{ 'menu.search'|trans }}</a>
@@ -101,13 +101,13 @@
                                                         <img src="{{ asset('/uploads/'~app.user.avatar) }}" alt="Avatar" class="img-fluid" style="width: 50%">
                                                     </a>
                                                 </li>
-                                                <li>
-                                                    <a href="{{ path('user_edit', {id: app.user.id}) }}">
-                                                        <i class="fa fa-edit" aria-hidden="true"></i> {{ 'menu.user'|trans }}
-                                                    </a>
-                                                </li>
-                                            {% endif %}
 
+                                            {% endif %}
+                                            <li>
+                                                <a href="{{ path('user_edit', {id: app.user.id}) }}">
+                                                    <i class="fa fa-edit" aria-hidden="true"></i> {{ 'menu.user'|trans }}
+                                                </a>
+                                            </li>
 
                                             <li class="divider"></li>
                                             <li>
@@ -131,7 +131,6 @@
                                         {% endfor %}
                                     </ul>
                                 </li>
-                                {% endblock %}
                             </ul>
                         </div>
                     </div>
@@ -193,9 +192,9 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
-        <script>
-
-        </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         {# it's not mandatory to set the timezone in localizeddate(). This is done to
            avoid errors when the 'intl' PHP extension is not available and the application
            is forced to use the limited "intl polyfill", which only supports UTC and GMT #}

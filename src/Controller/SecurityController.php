@@ -72,9 +72,43 @@ class SecurityController extends AbstractController
      */
     public function logout(): void
     {
-//        $this->addFlash('success', 'Vous êtes bien déconnecté merci de votre visite');
+        $this->addFlash('success', 'Vous êtes bien déconnecté merci de votre visite');
 //
 //        return $this->render('security/login.html.twig');
         throw new \Exception('This should never be reached!');
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @Route("/dropsession", name="security_drop_session")
+     */
+    public function compteActionLogout( Request $request)
+    {
+        $maxIdleTime=60;
+        $session = $request->getSession();
+
+        if (time() - $session->getMetadataBag()->getLastUsed() > $maxIdleTime) {
+            var_dump($maxIdleTime);
+            dd($session->getMetadataBag()->getLastUsed());
+            $session->invalidate();
+            $session->clear();
+
+//            dd($session->getMetadataBag()->getLastUsed());
+            $this->addFlash('success', 'Vous êtes bien déconnecté merci de votre visite');
+
+            return $this->redirectToRoute('security_login');
+        }
+        else {
+            // le contenu de mon action
+            var_dump("else");
+            dd($session);
+        }
+    }
+
+
+
+
+
+
 }

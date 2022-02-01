@@ -29,6 +29,7 @@ parameters:
     github: ''
     linkedin: ''
     nameSiteConfig: daos_
+    session_max_idle_time: 450
 
 services:
     # default configuration for services in *this* file
@@ -69,6 +70,11 @@ services:
 #    App\Controller\Admin\BlogController:
 #        arguments: ['@monolog.logger.db']
 
+     app.handler.session_idle:
+         class: AppBundle\Handler\SessionIdleHandler
+         arguments: ["@session", "@security.token_storage", "@router", "%session_max_idle_time%"]
+         tags:
+             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     # when the service definition only contains arguments, you can omit the
     # 'arguments' key and define the arguments just below the service class
