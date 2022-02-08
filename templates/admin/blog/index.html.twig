@@ -20,7 +20,7 @@
         </thead>
         <tbody>
         {% for post in posts %}
-            <tr>
+            <tr  class="border border-primary">
                 <td>{{ post.title }}</td>
                 {% if post.author.fullName is defined %}
                     <td>{{ post.author.fullName }}</td>

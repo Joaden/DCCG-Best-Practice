@@ -94,11 +94,11 @@
                                             <span class="caret"></span>
                                             <span class="sr-only">{{ app.user.username }}</span>
                                         </a>
-                                        <ul class="dropdown-menu user" role="menu" aria-labelledby="user">
+                                        <ul class="dropdown-menu -dark user bg-dark" role="menu" aria-labelledby="user">
                                             {% if app.user %}
-                                                <li>
+                                                <li class="nav-item bg-dark">
                                                     <a href="">
-                                                        <img src="{{ asset('/uploads/'~app.user.avatar) }}" alt="Avatar" class="img-fluid" style="width: 50%">
+                                                        <img src="{{ asset('/uploads/'~app.user.avatar) }}" alt="Avatar" class="rounded-circle" style="width: 50%">
                                                     </a>
                                                 </li>
 

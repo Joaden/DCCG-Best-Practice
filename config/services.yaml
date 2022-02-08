@@ -63,21 +63,15 @@ services:
         class: App\Utils\dbProcessor
         tags:
             - {name: monolog.processor, handler: dbHandler}
-#
-#    App\Controller\BlogController:
-#        arguments: ['@monolog.logger.db']
-#
-#    App\Controller\Admin\BlogController:
-#        arguments: ['@monolog.logger.db']
 
-     app.handler.session_idle:
-         class: AppBundle\Handler\SessionIdleHandler
-         arguments: ["@session", "@security.token_storage", "@router", "%session_max_idle_time%"]
-         tags:
-             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    app.handler.session_idle:
+        class: App\Handler\SessionIdleHandler
+        arguments: ["@session", "@security.token_storage", "@router", "%session_max_idle_time%"]
+        tags:
+          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     # when the service definition only contains arguments, you can omit the
-    # 'arguments' key and define the arguments just below the service class
+    # 'arguments' key and define the arguments just bel ow the service class
     App\EventSubscriber\CommentNotificationSubscriber:
         $sender: '%app.notifications.email_sender%'
 
