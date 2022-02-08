@@ -131,6 +131,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $auth_code;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UserAddress::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $userAddress;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
@@ -441,6 +446,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAuthCode(?string $auth_code): self
     {
         $this->auth_code = $auth_code;
+
+        return $this;
+    }
+
+    public function getUserAddress(): ?UserAddress
+    {
+        return $this->userAddress;
+    }
+
+    public function setUserAddress(?UserAddress $userAddress): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($userAddress === null && $this->userAddress !== null) {
+            $this->userAddress->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($userAddress !== null && $userAddress->getUser() !== $this) {
+            $userAddress->setUser($this);
+        }
+
+        $this->userAddress = $userAddress;
 
         return $this;
     }

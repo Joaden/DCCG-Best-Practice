@@ -27,7 +27,7 @@
 
 {% block sidebar %}
     {{ parent() }}
-    
+
     {% if is_granted('ROLE_ADMIN') %}
     {{ show_source_code(_self) }}
     {% endif %}
