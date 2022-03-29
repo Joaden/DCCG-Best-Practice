@@ -1,11 +1,8 @@
-{#
-   This is the base template used as the application layout which contains the
-   common elements and decorates all the other templates.
-   See https://symfony.com/doc/current/templates.html#template-inheritance-and-layouts
-#}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
     <head>
+        {#<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>#}
+        {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">#}
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>{% block title %}Symfony DAO CNT application{% endblock %}</title>
@@ -18,10 +15,17 @@
     </head>
 
     <body id="{% block body_id %}{% endblock %}">
+    {#<div class="wrapper">#}
+        <!-- Preloader -->
+        {#<div class="preloader">#}
+            {#<img src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">#}
+            {#<i class="fas fa-sync fa-spin"></i>#}
+        {#</div>#}
+    {#</div>#}
 
         {% block header %}
             <header>
-                <div class="navbar navbar-default navbar-static-top" role="navigation">
+                <div id="navbar-base" class="navbar navbar-default sticky-top" role="navigation" >
                     <div id="navHoverWave" class="container">
                         <div class="navbar-header col-md-3 col-lg-2">
                             <a class="navbar-brand" href="{{ path('homepage') }}">
@@ -148,7 +152,7 @@
                     </div>
 
                     <div id="sidebar" class="col-sm-3">
-                        {% block sidebar %}
+                        {%  block sidebar %}
                             {{ render_esi(controller('Symfony\\Bundle\\FrameworkBundle\\Controller\\TemplateController::templateAction', {
                                 'template': 'blog/about.html.twig',
                                 'sharedAge': 600,

@@ -41,31 +41,27 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-dump('before Setpassword');
 
-
-dump('before Submit');
-//dd($password);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
-dump('before createNewUser');
+            dump('before createNewUser');
            $password =  $user->setPassword(
             $passwordEncoder->encodePassword(
                 $user,
                 $form->get('plainPassword')->getData()));
 //            $user = $userManager->createNewUser($user, $form->get('plainPassword')->getData());
 
-dump('before Mail Admin');
+            dump('before Mail Admin');
 
          // get admin mails
             $mailAdmin = $entityManager->getRepository(User::class)->getAdminMails();
-dump('After Get Mail Admin');
-//dd($mailAdmin);
-//$mailAdmin = 'dao.cnt@outlook.fr';
+            dump('After Get Mail Admin');
+//            dd($mailAdmin);
+            //$mailAdmin = 'dao.cnt@outlook.fr';
 
-dump('FLUSH');
+            dump('FLUSH');
             $user->setRoles(['ROLE_USER']);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -75,39 +71,38 @@ dump('FLUSH');
 
             if(false === empty($mailAdmin))
             {
-    dump('before emailVerifier ');
-dump($mailAdmin);
+
+                dump($mailAdmin);
 
                 // generate a signed url and email it to the user
                 $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-//                $email = (new TemplatedEmail())
+                // $email = (new TemplatedEmail())
                     (new TemplatedEmail())
                     ->from(new Address('no-reply-dao-cnt@outlook.fr', 'Blog Dao Cnt'))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Veuillez confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
 
                 );
-dump('mailer->send');
+                dump('mailer->send');
 
-//                $mailer->send($email);
+                //$mailer->send($email);
 
             }
 
-//            if ($this->getUser() != null)
-//            {
-//                $userlogged = $this->getUser()->getFullName();
-//                $postID = $request->get('post')->getId();
-//
-//                $dbLogger->info('Create User id:'.$postID.' by '.$userlogged);
-//            } else {
-//                $dbLogger->error('Edit post id:'.$postID.' by an UNKNOW');
-//
-//            }
-
+                // if ($this->getUser() != null)
+                // {
+                //     $userlogged = $this->getUser()->getFullName();
+                //     $postID = $request->get('post')->getId();
+                //
+                //     $dbLogger->info('Create User id:'.$postID.' by '.$userlogged);
+                // } else {
+                //     $dbLogger->error('Edit post id:'.$postID.' by an UNKNOW');
+                //
+                // }
             $this->addFlash('success', 'Un mail de confirmation vous a été envoyé, merci de valider votre compte');
 
-//            $this->addFlash('warning', 'Compte doit être validé par email!');
+            //$this->addFlash('warning', 'Compte doit être validé par email!');
 
             return $this->redirectToRoute('security_login');
         }

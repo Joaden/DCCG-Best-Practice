@@ -1,4 +1,13 @@
 {
+    "almasaeed2010/adminlte": {
+        "version": "0.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "0.0",
+            "ref": ""
+        }
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.2"
     },

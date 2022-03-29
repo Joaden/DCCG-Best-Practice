@@ -109,21 +109,21 @@
     // _navbar.scss
     // _buttons.scss
     // _animations.scss
-    @import "custom/modules/brand";
-    @import "custom/modules/carousel";
-    @import "custom/modules/section";
-    @import "custom/modules/specialTypo";
+    @import "custom/modules/articleFilter";
     @import "custom/modules/avatar";
     @import "custom/modules/blogArticle";
-    @import "custom/modules/articleFilter";
+    @import "custom/modules/brand";
+    @import "custom/modules/carousel";
     @import "custom/modules/comment";
-    @import "custom/modules/sidebar";
     @import "custom/modules/dropdownProfil";
+    @import "custom/modules/footerDevMode";
+    @import "custom/modules/navbar";
+    @import "custom/modules/section";
+    @import "custom/modules/specialTypo";
+    @import "custom/modules/sidebar";
     @import "custom/modules/widgetTextDigit";
     @import "custom/modules/widgetTable";
-    @import "custom/modules/navbar";
 
-    @import "custom/modules/footerDevMode";
     // @import "custom/modules/themeClair";
     // @import "custom/modules/themeSombre";
 // ===================================

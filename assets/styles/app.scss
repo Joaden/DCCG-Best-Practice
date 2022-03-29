@@ -247,8 +247,17 @@ body#login #login-users-help p .console {
 
 /* Common Blog page elements
    ------------------------------------------------------------------------- */
+#navbar-base {
+  background-color: #f39c12;
+//  position: fixed;
+}
+
+
+
+/* Common Blog page elements
+   ------------------------------------------------------------------------- */
 .post-metadata {
-  color: #b4bcc2;
+  color: #00b6c3;
   font-size: 19px;
   margin-bottom: 16px;
 }

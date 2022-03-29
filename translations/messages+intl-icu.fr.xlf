@@ -60,6 +60,7 @@
                 <source>title.homepage</source>
                 <target><![CDATA[Bienvenue sur l'application <strong>Symfony Demo</strong>]]></target>
             </trans-unit>
+
             <trans-unit id="title.source_code">
                 <source>title.source_code</source>
                 <target>Le code source utilisé pour afficher cette page</target>
@@ -391,6 +392,12 @@
                 <source>help.show_code</source>
                 <target><![CDATA[Cliquez sur ce bouton pour voir le code source du <strong>contrôleur</strong> et du <strong>template</strong> utilisé pour afficher cette page.]]></target>
             </trans-unit>
+
+            <trans-unit id="help.pub">
+                <source>help.pub</source>
+                <target><![CDATA[Publicités <strong>cliquez içi</strong> pour accéder à<strong>l'annonce</strong> .]]></target>
+            </trans-unit>
+
             <trans-unit id="help.browse_app">
                 <source>help.browse_app</source>
                 <target><![CDATA[Parcourir la <strong>section publique</strong> de l'application.]]></target>

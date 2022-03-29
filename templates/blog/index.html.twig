@@ -97,6 +97,8 @@
 
 {% block sidebar %}
     {{ parent() }}
+    {{ include('pub/pub_code.html.twig') }}
+
     {% if is_granted('ROLE_ADMIN') %}
         {{ show_source_code(_self) }}
         {{ include('blog/_rss.html.twig') }}

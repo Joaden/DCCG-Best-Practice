@@ -1,10 +1,9 @@
-version: '3.8'
-
+version: "3.8"
 services:
 ###> doctrine/doctrine-bundle ###
     db:
         image: mysql
-        container_name: db_docker_Symfony-Demo
+        container_name: blog_dccg_symfony_prod
         restart: always
         volumes:
             - db-data:/var/lib/mysql
@@ -31,15 +30,15 @@ services:
         container_name: maildev_Symfony-Demo
         command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
         ports:
-          - "8081:80"
+            - "8081:80"
         restart: always
         networks:
             - dev
     www:
         build: php
-        container_name: www_docker_Symfony-Demo
+        container_name: www_Symfony-Demo
         ports:
-          - "8741:80"
+            - "8741:80"
         volumes:
             - ./php/vhosts:/etc/apache2/sites-enabled
             - ./:/var/www
