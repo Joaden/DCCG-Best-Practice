@@ -68,11 +68,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
-//    /**
-//     * @var string
-//     * @Assert\Length(max=4096)
-//     */
-//    private $plainPassword;
 
     /**
      * @var array
