@@ -1,23 +1,16 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Categorie;
 use App\Event\CommentCreatedEvent;
 use App\Form\CommentType;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
+use App\Repository\CategorieRepository;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -53,7 +46,7 @@ class BlogController extends AbstractController
      * Content-Type header for the response.
      * See https://symfony.com/doc/current/routing.html#special-parameters
      */
-    public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags, LoggerInterface $dbLogger): Response
+    public function index(Request $request, int $page, string $_format, PostRepository $posts, TagRepository $tags, CategorieRepository $cats, LoggerInterface $dbLogger): Response
     {
         $tag = null;
         if ($request->query->has('tag')) {
@@ -70,12 +63,25 @@ class BlogController extends AbstractController
 
         }
 
+        // get all categories
+        $cats = $cats->findAll();
+        // Create onglets
+        $tabOnglets = [];
+        foreach($cats as $key => $value)
+        {
+            dump($key);
+            dump($value);
+        }
+
+
         // Every template name also has two extensions that specify the format and
         // engine for that template.
         // See https://symfony.com/doc/current/templates.html#template-naming
         return $this->render('blog/index.'.$_format.'.twig', [
             'paginator' => $latestPosts,
 //            'user' => $user,
+            'cats' => $cats,
+            'tabOnglets' => $tabOnglets,
             'tagName' => $tag ? $tag->getName() : null,
         ]);
     }
