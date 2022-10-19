@@ -54,16 +54,32 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <ul class="list-group list-group-horizontal-md">
+            {% for cat in cats %}
 
-    <ul class="list-group list-group-horizontal-md">
-        {% for cat in cats %}
+            <li class="list-group-item flex-fill  class_cat_{{ cat.id }}">{{ cat.name }}</li>
+            {% endfor %}
 
-        <li class="list-group-item class_cat_{{ cat.id }}">{{ cat.name }}</li>
-        {% endfor %}
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+        </ul>
+    </div>
 
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            {% for cat in cats %}
+                <li class="nav-item active">
+                    <a class="nav-link class_cat_{{ cat.id }}" href="#">{{ cat.name }}</a>
+                </li>
+            {% endfor %}
+
+            </ul>
+        </div>
+    </nav>
+
 
 
     {% for post in paginator.results %}
