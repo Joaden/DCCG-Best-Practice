@@ -308,6 +308,14 @@
                 <source>menu.homepage</source>
                 <target>Accueil</target>
             </trans-unit>
+            <trans-unit id="menu.boutique">
+                <source>menu.boutique</source>
+                <target>Boutique</target>
+            </trans-unit>
+            <trans-unit id="menu.blog">
+                <source>menu.blog</source>
+                <target>Blog</target>
+            </trans-unit>
             <trans-unit id="menu.admin">
                 <source>menu.admin</source>
                 <target>Admin</target>

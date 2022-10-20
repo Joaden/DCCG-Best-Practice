@@ -16,6 +16,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.6",
         "erusev/parsedown": "^1.6",
+        "knplabs/knp-paginator-bundle": "^5.9",
         "liip/imagine-bundle": "^2.7",
         "scheb/2fa-bundle": "^5.13",
         "sensio/framework-extra-bundle": "^6.1",
@@ -36,14 +37,16 @@
         "symfony/security-bundle": "^5.4",
         "symfony/string": "^5.4",
         "symfony/translation": "^5.4",
-        "symfony/twig-pack": "^1.0",
+        "symfony/twig-bundle": "5.4.*",
         "symfony/validator": "^5.4",
         "symfony/webpack-encore-bundle": "^1.4",
         "symfony/yaml": "^5.4",
         "symfonycasts/verify-email-bundle": "^1.7",
         "tgalopin/html-sanitizer-bundle": "^1.2",
+        "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.0",
-        "twig/markdown-extra": "^3.0"
+        "twig/markdown-extra": "^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.2",

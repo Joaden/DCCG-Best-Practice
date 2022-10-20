@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <h1>Products</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+                <th>Ref</th>
+                <td>{{ product.ref }}</td>
+            </tr>
+            <tr>
+                <th>Ean</th>
+                <td>{{ product.ean }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ product.slug }}</td>
+            </tr>
+            <tr>
+                <th>Qte</th>
+                <td>{{ product.qte }}</td>
+            </tr>
+            <tr>
+                <th>QteLogistic</th>
+                <td>{{ product.qteLogistic }}</td>
+            </tr>
+            <tr>
+                <th>IsValid</th>
+                <td>{{ product.isValid ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsShow</th>
+                <td>{{ product.isShow ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>DateStart</th>
+                <td>{{ product.dateStart ? product.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateEnd</th>
+                <td>{{ product.dateEnd ? product.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ product.type }}</td>
+            </tr>
+            <tr>
+                <th>Supplier</th>
+                <td>{{ product.supplier }}</td>
+            </tr>
+            <tr>
+                <th>TransportCode</th>
+                <td>{{ product.transportCode }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ product.description }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ product.price }}</td>
+            </tr>
+            <tr>
+                <th>Sold</th>
+                <td>{{ product.sold ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_products_index') }}">back to list</a>
+
+    <a href="{{ path('app_products_edit', {'id': product.id}) }}">edit</a>
+
+    {{ include('products/_delete_form.html.twig') }}
+{% endblock %}

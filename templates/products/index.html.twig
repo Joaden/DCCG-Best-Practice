@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les produits
+{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron">
+        <div class="container">
+            {#{{ form_start(form) }}#}
+            <div class="form-row align-items-end">
+                <div class="col">Catégories
+                    {#{{ form_row(form.minSurface) }}#}
+                </div>
+                <div class="col">Prix Max
+                    {#{{ form_row(form.maxPrice) }}#}
+                </div>
+                <div class="col">Options
+                    {#{{ form_row(form.options) }}#}
+                </div>
+                <div class="col">Homme / Femme
+                {#{{ form_row(form.city) }}#}
+                </div>
+                <div class="col">Enfants
+                {#{{ form_row(form.type) }}#}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-primary">Rechercher</button>
+                    </div>
+                </div>
+            </div>
+            {#{{ form_end(form) }}#}
+        </div>
+    </div>
+
+
+
+
+    <div class="bg-light p-3">
+        <h1>Les produits</h1>
+        <div>
+            {% set counter = 0 %}
+            {% set counterNbr = 0 %}
+            {% for product in products %}
+                {% if product is defined %}
+                        {% set counterNbr = counterNbr + 1 %}
+                {% endif %}
+            {% endfor %}
+            {{ counterNbr }}
+            Produits disponibles {{ record }}
+        </div>
+    </div>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-4 mt-4">
+                <div class="border border-dark rounded p-2 clearfix">
+                    <h2>
+                        {{ product.title }}
+                        -
+                        {{ product.price }}
+                        €
+                    </h2>
+                    
+                    {% if product.stock >= 1 %}
+                      
+                        <p class="text-primary">Stock disponible : {{ product.stock }}</p>
+                        
+                    
+                        <img class="img-fluid rounded" src="{{ product.image }}" alt="Image de {{ product.title }}">
+                        <hr>
+                        <a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-success float-right">
+                            <i class="fas fa-shopping-cart mr-1"></i>
+                            Ajouter
+                        </a>
+                    {% else %}
+                        <p class="text-danger">Stock non disponible : {{ product.stock }}</p>
+
+                        <img class="img-fluid rounded" src="{{ product.image }}" alt="Image de {{ product.title }}">
+                        <hr>
+                        <p>Vous pourrez commander ce produit quand il sera disponible.</p>
+                        <p>Mettre dans ma liste :
+                            <a href="{{ path('cart_add_list', {'id': product.id}) }}" class="btn btn-info float-right">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                Ajouter
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
+
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+    <div class="pagination">
+        {{ knp_pagination_render(products) }}
+    </div>
+
+{% endblock %}

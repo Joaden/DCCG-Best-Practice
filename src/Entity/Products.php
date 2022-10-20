@@ -88,7 +88,7 @@ class Products
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="products")
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
      */
     private $categories;
@@ -281,12 +281,12 @@ class Products
         return $this;
     }
 
-    public function getCategories(): ?Categories
+    public function getCategories(): ?Categorie
     {
         return $this->categories;
     }
 
-    public function setCategories(?Categories $categories): self
+    public function setCategories(?Categorie $categories): self
     {
         $this->categories = $categories;
 

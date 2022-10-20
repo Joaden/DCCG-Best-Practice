@@ -47,15 +47,26 @@
                                 {% block header_navigation_links %}
                                     <li>
                                         <a href="{{ path('blog_index') }}">
+                                            <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.blog'|trans }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('blog_index') }}">
                                             <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ path('app_products_index') }}">
+                                            <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.boutique'|trans }}
+                                        </a>
+                                    </li>
+                                    
 
-                                    {#<li>#}
-                                        {#<a href="{{ path('contact_form') }}">#}
-                                            {#<i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.contact'|trans }}#}
-                                        {#</a>#}
-                                    {#</li>#}
+                                    <li>
+                                        <a href="{{ path('contact_form') }}">
+                                            <i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.contact'|trans }}
+                                        </a>
+                                    </li>
                                     {#<li>#}
                                         {#<a href="{{ path('quiz') }}">#}
                                             {#<i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.quiz'|trans }}#}
