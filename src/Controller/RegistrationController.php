@@ -8,6 +8,7 @@ use App\Manager\UserManager;
 use App\Security\EmailVerifier;
 use App\Security\UsersAuthenticator;
 use Psr\Log\LoggerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 use App\Repository\UserRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -23,14 +24,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
-
 class RegistrationController extends AbstractController
 {
     private $emailVerifier;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, ManagerRegistry $doctrine)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -45,13 +46,13 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->doctrine->getManager();
             dump('before createNewUser');
            $password =  $user->setPassword(
             $passwordEncoder->encodePassword(
                 $user,
                 $form->get('plainPassword')->getData()));
-//            $user = $userManager->createNewUser($user, $form->get('plainPassword')->getData());
+        //    $user = $userManager->createNewUser($user, $form->get('plainPassword')->getData());
 
             dump('before Mail Admin');
 
@@ -63,7 +64,7 @@ class RegistrationController extends AbstractController
 
             dump('FLUSH');
             $user->setRoles(['ROLE_USER']);
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->doctrine->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Compte créé avec succès!');

@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Security\EmailVerifier;
+use App\Security\UsersAuthenticator;
+use Psr\Log\LoggerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 /**
@@ -18,9 +22,13 @@ use Knp\Component\Pager\PaginatorInterface;
 class ProductsController extends AbstractController
 {
 
-    public function __construct(ProductsRepository $repository)
-    {   
+    private $emailVerifier;
+
+    public function __construct(ProductsRepository $repository, EmailVerifier $emailVerifier, ManagerRegistry $doctrine)
+    {
         $this->repository = $repository;
+        $this->emailVerifier = $emailVerifier;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -37,7 +45,9 @@ class ProductsController extends AbstractController
         dump($products);
 
         return $this->render('products/index.html.twig', [
-            'products' => $productsRepository->findAll(),
+            'products' => $products,
+            'record' => $record,
+            // 'products' => $productsRepository->findAll(),
         ]);
     }
 

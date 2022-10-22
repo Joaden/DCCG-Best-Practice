@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Change password{% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+
+    <div class="container ">
+        <div class="row justify-content-center">
+            <div class="section col-6" style="border: 3px solid #1C6EA4;margin:20px;padding:20px;">
+                <div class="row-flex col-12">
+
+                <h1>Changer votre mot de passe</h1>
+
+                {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+
+                    {{ form_widget(form.oldPassword) }}
+
+                    {{ form_widget(form.plainPassword.first) }}
+
+                    {{ form_widget(form.plainPassword.second) }}
+
+
+                    <button type="submit" class="btn">Changer mot de passe</button>
+                {{ form_end(form) }}
+                 </div>
+                <div class="row-flex col-12" style="border-top:3px solid #1C6EA4; margin:10px;">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

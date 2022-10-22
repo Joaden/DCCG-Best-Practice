@@ -36,6 +36,34 @@ class UserManager
     }
 
     /**
+     * Manage password
+     * @param User $user
+     * @return User
+     */
+    function addNewPassword(User $user, string $plainPassword): User
+    {
+        $passwordEncoded = $this->passwordHasher->hashPassword($user, $plainPassword);
+
+        $user->setPassword($passwordEncoded);
+
+        return $user;
+    }
+
+    /**
+     * Add new user
+     * @param User $user
+     * @return User
+     */
+    function addPassword(User $user, string $plainPassword): User
+    {
+        $passwordEncoded = $this->passwordHassher->hashPassword($user, $plainPassword);
+
+        $user->setPassword($passwordEncoded);
+
+        return $user;
+    }
+
+    /**
      * Flush new user
      */
     function saveCreateUser(User $user)

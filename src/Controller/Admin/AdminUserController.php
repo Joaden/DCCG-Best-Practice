@@ -25,6 +25,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
+use App\Security\EmailVerifier;
+use App\Security\UsersAuthenticator;
+use Psr\Log\LoggerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 /**
@@ -36,6 +40,16 @@ use Symfony\Contracts\Cache\ItemInterface;
  */
 class AdminUserController extends AbstractController
 {
+    
+    private $emailVerifier;
+
+    public function __construct(EmailVerifier $emailVerifier, ManagerRegistry $doctrine)
+    {
+        $this->emailVerifier = $emailVerifier;
+        $this->doctrine = $doctrine;
+    }
+
+
    /**
     * @Route("/", methods="GET", name="admin_index")
     * @Route("/", methods="GET", name="admin_user_index")
@@ -107,7 +121,7 @@ public function edit(Request $request, User $user): Response
 //                $img->setName($fichier);
 //                $annonce->addImagesAnnonce($img);
             }
-            $this->getDoctrine()->getManager()->flush();
+            $this->doctrine->getManager()->flush();
 
             $this->addFlash('success', 'post.updated_successfully');
 
@@ -137,7 +151,7 @@ public function edit(Request $request, User $user): Response
         // because foreign key support is not enabled by default in SQLite
         $user->getTags()->clear();
 
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->remove($user);
         $em->flush();
 
@@ -158,9 +172,9 @@ public function allowed(Request $request): Response
         $success = false;
         $html = false;
 
-        $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('data'));
+        $user = $this->doctrine->getRepository(User::class)->find($request->get('data'));
 
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->flush();
 
         $this->addFlash('success', 'post.updated_successfully');
 

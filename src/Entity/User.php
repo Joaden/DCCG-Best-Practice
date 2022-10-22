@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -56,7 +47,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      *
      * @ORM\Column(type="string", length=100, unique=true)
-     * @Assert\Email()
+     * @Assert\Email(
+     *      message = "l'email '{{ value }}' n'est pas valide"
+     * )
+     * @Assert\NotBlank(
+     *      message = "Vous devez entrer une adresse email"
+     * )
+     * 
      */
     private $email;
 
@@ -144,11 +141,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-//
-//    public function __toString()
-//    {
-//        return $this->name;
-//    }
+
+   public function __toString()
+   {
+       return $this->username;
+   }
 
     public function setFullName(string $fullName): void
     {
@@ -159,11 +156,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->fullName;
     }
-//
-//    public function getUserIdentifier(): string
-//    {
-//        return $this->username;
-//    }
+
+   public function getUserIdentifier(): string
+   {
+       return $this->email;
+   }
 
     public function getUsername(): string
     {
@@ -186,6 +183,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
     }
 
+
+    
     public function getPassword(): ?string
     {
         return $this->password;
@@ -386,10 +385,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
+    // public function isVerified(): bool
+    // {
+    //     return $this->isVerified;
+    // }
 
     /**
      * @return Collection|Log[]

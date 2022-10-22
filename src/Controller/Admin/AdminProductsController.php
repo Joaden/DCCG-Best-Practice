@@ -6,10 +6,16 @@ use App\Entity\Products;
 use App\Form\ProductsType;
 use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Security\EmailVerifier;
+use App\Security\UsersAuthenticator;
+use Psr\Log\LoggerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @Route("/admin/products")
@@ -19,13 +25,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class AdminProductsController extends AbstractController
 {
+
+    private $emailVerifier;
+
+    public function __construct(EmailVerifier $emailVerifier, ManagerRegistry $doctrine)
+    {
+        $this->emailVerifier = $emailVerifier;
+        $this->doctrine = $doctrine;
+    }
+
     /**
      * @Route("/", name="app_admin_products_index", methods={"GET"})
      */
-    public function index(ProductsRepository $productsRepository): Response
+    public function index(PaginatorInterface $paginator, ProductsRepository $productsRepository, Request $request): Response
     {
-        return $this->render('admin/store/products/index.html.twig', [
-            'products' => $productsRepository->findAll(),
+        $products = $paginator->paginate(
+            $productsRepository->findAll(),
+            $request->query->getInt('page',1),
+            12
+        );
+        $record = count($products);
+        dump($products);
+        return $this->render('admin/store/index.html.twig', [
+            'products' => $products,
+            'record' => $record,
+            // 'products' => $productsRepository->findAll(),
         ]);
     }
 
