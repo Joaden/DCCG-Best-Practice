@@ -1,14 +1,11 @@
-{#
-   This is the base template used as the application layout which contains the
-   common elements and decorates all the other templates.
-   See https://symfony.com/doc/current/templates.html#template-inheritance-and-layouts
-#}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
     <head>
+        {#<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>#}
+        {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">#}
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>{% block title %}Symfony Demo application{% endblock %}</title>
+        <title>{% block title %}Symfony DAO CNT application{% endblock %}</title>
         <link rel="alternate" type="application/rss+xml" title="{{ 'rss.title'|trans }}" href="{{ path('blog_rss') }}">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -18,14 +15,21 @@
     </head>
 
     <body id="{% block body_id %}{% endblock %}">
+    {#<div class="wrapper">#}
+        <!-- Preloader -->
+        {#<div class="preloader">#}
+            {#<img src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">#}
+            {#<i class="fas fa-sync fa-spin"></i>#}
+        {#</div>#}
+    {#</div>#}
 
         {% block header %}
             <header>
-                <div class="navbar navbar-default navbar-static-top" role="navigation">
-                    <div class="container">
+                <div id="navbar-base" class="navbar navbar-default sticky-top" role="navigation" >
+                    <div id="navHoverWave" class="container">
                         <div class="navbar-header col-md-3 col-lg-2">
                             <a class="navbar-brand" href="{{ path('homepage') }}">
-                                Symfony Demo
+                                Homepage
                             </a>
 
                             <button type="button" class="navbar-toggle"
@@ -43,9 +47,41 @@
                                 {% block header_navigation_links %}
                                     <li>
                                         <a href="{{ path('blog_index') }}">
+                                            <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.blog'|trans }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('blog_index') }}">
                                             <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ path('app_products_index') }}">
+                                            <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.boutique'|trans }}
+                                        </a>
+                                    </li>
+                                    
+
+                                    <li>
+                                        <a href="{{ path('contact_form') }}">
+                                            <i class="fa fa-edit" aria-hidden="true"></i> {{ 'menu.contact'|trans }}
+                                        </a>
+                                    </li>
+                                    {#<li>#}
+                                        {#<a href="{{ path('quiz') }}">#}
+                                            {#<i class="fa fa-trophy" aria-hidden="true"></i> {{ 'menu.quiz'|trans }}#}
+                                        {#</a>#}
+                                    {#</li>#}
+
+
+                                    {#{% if is_granted('ROLE_MODERATOR') %}#}
+                                        {#<li>#}
+                                            {#<a href="{{ path('moderator_index') }}">#}
+                                                {#<i class="fa fa-warning" aria-hidden="true">Reports</i>#}
+                                            {#</a>#}
+                                        {#</li>#}
+
+                                    {#{% endif %}#}
 
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li>
@@ -66,26 +102,34 @@
                                 </li>
 
                                 {% if app.user %}
-
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="user">
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                             <span class="caret"></span>
                                             <span class="sr-only">{{ app.user.username }}</span>
                                         </a>
-                                        <ul class="dropdown-menu user" role="menu" aria-labelledby="user">
-                                            {% if app.user.avatar %}
-                                                <li>
+                                        <ul class="dropdown-menu -dark user bg-dark" role="menu" aria-labelledby="user">
+                                            {#{% if app.user %}#}
+                                                {#<li class="nav-item bg-dark">{{ app.user.username }}</li>#}
+                                            <li>
+                                                <a href="{{ path('user_edit', {id: app.user.id}) }}">
+                                                    <i class="fa fa-edit" aria-hidden="true"></i> {{ app.user.username }}
+                                                </a>
+                                            </li>
+
+                                                <li class="nav-item bg-dark">
                                                     <a href="">
-                                                        <img src="{{ asset('/uploads/'~app.user.avatar) }}" alt="Avatar" class="img-fluid" style="width: 50%">
+                                                        <img src="{{ asset('/uploads/'~app.user.avatar) }}" alt="Avatar" class="rounded-circle" style="width: 50%">
                                                     </a>
                                                 </li>
-                                            {% endif %}
+
+                                            {#{% endif %}#}
                                             <li>
-                                                <a href="{{ path('user_edit') }}">
+                                                <a href="{{ path('user_edit', {id: app.user.id}) }}">
                                                     <i class="fa fa-edit" aria-hidden="true"></i> {{ 'menu.user'|trans }}
                                                 </a>
                                             </li>
+
                                             <li class="divider"></li>
                                             <li>
                                                 <a href="{{ path('security_logout') }}">
@@ -125,7 +169,7 @@
                     </div>
 
                     <div id="sidebar" class="col-sm-3">
-                        {% block sidebar %}
+                        {%  block sidebar %}
                             {{ render_esi(controller('Symfony\\Bundle\\FrameworkBundle\\Controller\\TemplateController::templateAction', {
                                 'template': 'blog/about.html.twig',
                                 'sharedAge': 600,
@@ -142,8 +186,9 @@
                 <div class="container">
                     <div class="row">
                         <div id="footer-copyright" class="col-md-6">
-                            <p>&copy; {{ 'now'|date('Y') }} - The Symfony Project</p>
-                            <p>{{ 'mit_license'|trans }}</p>
+                            <p>&copy; {{ 'now'|date('Y') }} - The Symfony DAO CNT Project</p>
+                            {#<p>{{ 'mit_license'|trans }}</p>#}
+                            <p>Tous droits réservés</p>
                         </div>
                         <div id="footer-resources" class="col-md-6">
                             <p>
@@ -163,10 +208,14 @@
             </footer>
         {% endblock %}
 
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         {# it's not mandatory to set the timezone in localizeddate(). This is done to
            avoid errors when the 'intl' PHP extension is not available and the application
            is forced to use the limited "intl polyfill", which only supports UTC and GMT #}

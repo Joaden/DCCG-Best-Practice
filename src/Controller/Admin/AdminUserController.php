@@ -16,12 +16,19 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use App\Security\EmailVerifier;
+use App\Security\UsersAuthenticator;
+use Psr\Log\LoggerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 /**
@@ -33,13 +40,28 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class AdminUserController extends AbstractController
 {
+    
+    private $emailVerifier;
+
+    public function __construct(EmailVerifier $emailVerifier, ManagerRegistry $doctrine)
+    {
+        $this->emailVerifier = $emailVerifier;
+        $this->doctrine = $doctrine;
+    }
+
+
    /**
     * @Route("/", methods="GET", name="admin_index")
     * @Route("/", methods="GET", name="admin_user_index")
     */
-    public function index(UserRepository $user)
+    public function index(UserRepository $user, CacheInterface $cache)
     {
-        $users = $user->findAll(['Membre' => $this->getUser()]);
+//        $users = $user->findAll(['Membre' => $this->getUser()]);
+        $users = $cache->get('list-users', function(ItemInterface $items) use($user)
+        {
+            $items->expiresAfter(3600);
+            return $user->findAll(['Membre' => $this->getUser()]);
+        });
         return $this->render('admin/user/index.html.twig', ['users' => $users]);
 
     }
@@ -53,7 +75,7 @@ class AdminUserController extends AbstractController
     {
         // This security check can also be performed
         // using an annotation: @IsGranted("show", subject="post", message="Posts can only be shown to their authors.")
-//        $this->denyAccessUnlessGranted(PostVoter::SHOW, $post, 'Posts can only be shown to their authors.');
+//        $this->denyAccessUnlessGranted(PostVoter::SHOW, $user, 'Posts can only be shown to their authors.');
 
         return $this->render('admin/user/show.html.twig', [
             'user' => $user,
@@ -99,7 +121,7 @@ public function edit(Request $request, User $user): Response
 //                $img->setName($fichier);
 //                $annonce->addImagesAnnonce($img);
             }
-            $this->getDoctrine()->getManager()->flush();
+            $this->doctrine->getManager()->flush();
 
             $this->addFlash('success', 'post.updated_successfully');
 
@@ -129,7 +151,7 @@ public function edit(Request $request, User $user): Response
         // because foreign key support is not enabled by default in SQLite
         $user->getTags()->clear();
 
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->remove($user);
         $em->flush();
 
@@ -138,6 +160,27 @@ public function edit(Request $request, User $user): Response
         return $this->redirectToRoute('admin_user_index');
     }
 
+
+/**
+ * Allowed user
+ *
+ * @Route("/{id<\d+>}/", methods="GET|POST", name="admin_user_allowed")
+ */
+public function allowed(Request $request): Response
+    {
+        $message = "Error inconnue";
+        $success = false;
+        $html = false;
+
+        $user = $this->doctrine->getRepository(User::class)->find($request->get('data'));
+
+        $this->doctrine->getManager()->flush();
+
+        $this->addFlash('success', 'post.updated_successfully');
+
+        return new JsonResponse(['message' => $message, 'success' => $success, 'html' => $html, 'id' => $user->getId()]);
+
+    }
 
 
 

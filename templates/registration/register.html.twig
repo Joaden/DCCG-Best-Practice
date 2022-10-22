@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+
+    <div class="container ">
+        <div class="row justify-content-center">
+            <div class="section col-6" style="border: 3px solid #1C6EA4;margin:20px;padding:20px;">
+                <div class="row-flex col-12">
+
+                <h1>Enregistrement</h1>
+
+                {{ form_start(registrationForm, {attr: {novalidate: 'novalidate'}}) }}
+
+                    {#{% for champ in registrationForm %}#}
+                    {#{{ form_row(champ) }}#}
+                    {#{% endfor %}#}
+
+                    {{ form_widget(registrationForm.full_name) }}
+
+                    {{ form_widget(registrationForm.username) }}
+
+                    {{ form_widget(registrationForm.email) }}
+
+                    {{ form_widget(registrationForm.plainPassword.first) }}
+
+                    {{ form_widget(registrationForm.plainPassword.second) }}
+
+                    {{ form_widget(registrationForm.agreeTerms) }}
+
+                    {{ form_widget(registrationForm) }}
+
+                    <button type="submit" class="btn">Register</button>
+                {{ form_end(registrationForm) }}
+                 </div>
+                <div class="row-flex col-12" style="border-top:3px solid #1C6EA4; margin:10px;">
+                </div>
+                <div class="row-flex col-12">
+                    <div class="row-flex col-12">
+                        <h5>Vous avez déjà un compte ?</h5>
+                    </div>
+                    <div class="btn btn-info">
+
+                        <a class="text-withe" href="{{ path('security_login') }}">Login / Se connecter </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

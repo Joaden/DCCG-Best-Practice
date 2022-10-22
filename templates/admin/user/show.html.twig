@@ -19,7 +19,8 @@
         <p class="m-b-0"><strong>{{ 'label.summary'|trans }}</strong>: {{ user.saying }}</p>
     </div>
 
-    nl2br{{ user.bio|markdown_to_html|sanitize_html }}
+    {{ user.bio }}
+    {#{{ user.bio|markdown_to_html|sanitize_html }}#}
 
 {% endblock %}
 

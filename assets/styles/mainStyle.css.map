@@ -156,7 +156,8 @@
         "custom/modules/_dropdownProfil.scss",
         "custom/modules/_widgetTextDigit.scss",
         "custom/modules/_widgetTable.scss",
-        "custom/modules/_footerDevMode.scss"
+        "custom/modules/_footerDevMode.scss",
+        "custom/modules/_navbar.scss"
     ],
     "names": [],
     "file": "mainStyle.css"

@@ -21,7 +21,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
+use Dompdf\Options;
+use Dompdf\Dompdf;
 
 /**
  * Controller used to manage current user.
@@ -33,19 +34,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/edit", methods="GET|POST", name="user_edit")
+     * @Route("/{id<\d+>}/edit", methods="GET|POST", name="user_edit")
      */
-    public function edit(Request $request, UserRepository $user): Response
+    public function edit(Request $request, User $user): Response
     {
-        $user = new User();
-        $user = $this->getUser();
+//        $user = new User();
+//        $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
             ///// ADD AVATAR
              // On récupère l'image transmise
             $avatars = $form->get('avatar')->getData();
@@ -65,6 +64,7 @@ class UserController extends AbstractController
                         );
                     } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
+                        echo $e->getMessage();
                     }
                     // On stock l'image dans la base de donnée(son nom)
                     // instead of its contents

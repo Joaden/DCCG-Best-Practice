@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Command;
 
 use App\Entity\User;
@@ -30,12 +21,6 @@ use Symfony\Component\Mime\Email;
  *
  *     $ php bin/console app:list-users
  *
- * Check out the code of the src/Command/AddUserCommand.php file for
- * the full explanation about Symfony commands.
- *
- * See https://symfony.com/doc/current/console.html
- *
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
 class ListUsersCommand extends Command
 {

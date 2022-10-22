@@ -37,14 +37,6 @@ use function Symfony\Component\String\u;
  * To output detailed information, increase the command verbosity:
  *
  *     $ php bin/console app:add-user -vv
- *
- * See https://symfony.com/doc/current/console.html
- *
- * We use the default services.yaml configuration, so command classes are registered as services.
- * See https://symfony.com/doc/current/console/commands_as_services.html
- *
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- * @author Yonel Ceruto <yonelceruto@gmail.com>
  */
 class AddUserCommand extends Command
 {

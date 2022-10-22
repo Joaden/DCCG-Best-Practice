@@ -3,6 +3,85 @@
 {% block body_id 'blog_index' %}
 
 {% block main %}
+
+
+    {# // START Show article by categories AJAX  // #}
+    <div class="container">
+        <div class="row">
+            {% for cat in cats %}
+
+                <div class="col-sm-2 nav-link">
+                    <a class="nav-link class_cat_{{ cat.id }}" href="#">{{ cat.name }}</a>
+                </div>
+
+            {% endfor %}
+        </div>
+        {#<div class="row">#}
+            {#<div class="col-8">col-8</div>#}
+            {#<div class="col-4">col-4</div>#}
+        {#</div>#}
+    </div>
+    {#<ul class="nav justify-content-center">#}
+        {#{% for cat in cats %}#}
+            {#<li class="nav-item">#}
+                {#<a class="nav-link class_cat_{{ cat.id }}" href="#">{{ cat.name }}</a>#}
+            {#</li>#}
+            {#&#123;&#35;<li class="nav-item">&#35;&#125;#}
+                {#&#123;&#35;<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>&#35;&#125;#}
+            {#&#123;&#35;</li>&#35;&#125;#}
+        {#{% endfor %}#}
+    {#</ul>#}
+    {#// END Show article by categories AJAX  //#}
+
+    <div class="jumbotron">
+        {#<h1 class="display-4">Hello, world!</h1>#}
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
+
+    <div class="jumbotron">
+        <div class="container">
+            <p class="lead">Categories</p>
+
+            <div class="row">
+                {% for cat in cats %}
+                    <div class="col-sm-2 nav-link">
+                        <a class="nav-link class_cat_{{ cat.id }}" href="#">{{ cat.name }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <ul class="list-group list-group-horizontal-md">
+            {% for cat in cats %}
+
+            <li class="list-group-item flex-fill  class_cat_{{ cat.id }}">{{ cat.name }}</li>
+            {% endfor %}
+
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+        </ul>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            {% for cat in cats %}
+                <li class="nav-item active">
+                    <a class="nav-link class_cat_{{ cat.id }}" href="#">{{ cat.name }}</a>
+                </li>
+            {% endfor %}
+
+            </ul>
+        </div>
+    </nav>
+
+
+
     {% for post in paginator.results %}
         <article class="post">
             <h2>
@@ -12,7 +91,46 @@
             </h2>
             {% if post.image %}
                 <div class="d-inline p-4">
-                    <img src="{{ asset('/uploads/'~post.image) }}" alt="Responsive image" class="img-fluid max-width: 100%" >
+                    <a href="{{ path('blog_post', {slug: post.slug}) }}">
+                    {#<img src="{{ asset('/uploads/'~post.image) }}" alt="Responsive image" class="img-fluid max-width: 100%" >#}
+                        {#<img src="{{ asset('/uploads/'~post.image) | imagine_filter('medium') }}" alt="image article" class="img-fluid max-width: 100%" >#}
+                    {#</a>#}
+                {#</div>#}
+                        <picture class="media-object">
+                            <source media="(max-width: 767px)"
+                                    sizes="(max-width: 1534px) 100vw, 1534px"
+                                    srcset="
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('medium') }} 750w,
+                                        {#{{ asset('/uploads/'~post.image) | imagine_filter('echelle') }} 750w,#}
+                                        {#{{ asset('images/elephant_1131.jpg') }} 1131w,#}
+                                        {#{{ asset('images/elephant_1415.jpg') }} 1415w,#}
+                                        {#{{ asset('images/elephant_1534.jpg') }} 1534w#}
+                                        ">
+
+                            <source media="(min-width: 768px) and (max-width: 1199px)"
+                                    sizes="(max-width: 1080px) 50vw, 1200px"
+                                    srcset="
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('thumb') }} 384w,
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('medium') }} 785w">
+
+                                        {#{{ asset('images/elephant_785.jpg') }} 785w,#}
+                                        {#{{ asset('images/elephant_1026.jpg') }} 1026w,#}
+                                        {#{{ asset('images/elephant_1200.jpg') }} 1200w"#}
+
+                            <img id="mediaCaseObject" sizes="(max-width: 3840px) 50vw, 1920px"
+                                 srcset="
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('large') }} 600w,
+                                        {{ asset('/uploads/'~post.image) | imagine_filter('big') }} 1920w"
+
+                                        {#{{ asset('images/elephant_600.jpg') }} 600w,#}
+                                        {#{{ asset('images/elephant_1166.jpg') }} 1166w,#}
+                                        {#{{ asset('images/elephant_1585.jpg') }} 1585w,#}
+                                        {#{{ asset('images/elephant_1920.jpg') }} 1920w"#}
+
+                                 src="{{ asset('/uploads/'~post.image) | imagine_filter('echelle') }}"
+                                 alt="image article">
+                        </picture>
+                    </a>
                 </div>
             {% endif %}
 
@@ -58,7 +176,10 @@
 
 {% block sidebar %}
     {{ parent() }}
+    {{ include('pub/pub_code.html.twig') }}
 
-    {{ show_source_code(_self) }}
-    {{ include('blog/_rss.html.twig') }}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ show_source_code(_self) }}
+        {{ include('blog/_rss.html.twig') }}
+    {% endif %}
 {% endblock %}

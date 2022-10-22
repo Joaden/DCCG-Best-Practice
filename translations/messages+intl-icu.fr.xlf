@@ -60,6 +60,7 @@
                 <source>title.homepage</source>
                 <target><![CDATA[Bienvenue sur l'application <strong>Symfony Demo</strong>]]></target>
             </trans-unit>
+
             <trans-unit id="title.source_code">
                 <source>title.source_code</source>
                 <target>Le code source utilisé pour afficher cette page</target>
@@ -171,11 +172,23 @@
             </trans-unit>
             <trans-unit id="action.browse_app">
                 <source>action.browse_app</source>
-                <target>Naviguer sur l'application</target>
+                <target>Naviguer sur le blog</target>
             </trans-unit>
             <trans-unit id="action.browse_admin">
                 <source>action.browse_admin</source>
-                <target>Naviguer sur l'admin</target>
+                <target>Administration</target>
+            </trans-unit>
+           <trans-unit id="action.browse_logout">
+               <source>action.browse_logout</source>
+               <target>Déconnexion</target>
+           </trans-unit>
+            <trans-unit id="action.browse_login">
+                <source>action.browse_login</source>
+                <target>Se connecter</target>
+            </trans-unit>
+            <trans-unit id="action.browse_register">
+                <source>action.browse_register</source>
+                <target>S'inscrire</target>
             </trans-unit>
             <trans-unit id="action.edit_user">
                 <source>action.edit_user</source>
@@ -213,6 +226,10 @@
             <trans-unit id="label.email">
                 <source>label.email</source>
                 <target>Mail</target>
+            </trans-unit>
+            <trans-unit id="label.is_verified">
+                <source>label.is_verified</source>
+                <target>Email Confirmé</target>
             </trans-unit>
             <trans-unit id="label.password">
                 <source>label.password</source>
@@ -275,13 +292,29 @@
                 <source>menu.post_list</source>
                 <target>Liste des articles</target>
             </trans-unit>
+            <trans-unit id="menu.contact">
+                <source>menu.contact</source>
+                <target>Contact</target>
+            </trans-unit>
             <trans-unit id="menu.back_to_blog">
                 <source>menu.back_to_blog</source>
                 <target>Retour au blog</target>
             </trans-unit>
+            <trans-unit id="menu.quiz">
+                <source>menu.quiz</source>
+                <target>Questionnaire</target>
+            </trans-unit>
             <trans-unit id="menu.homepage">
                 <source>menu.homepage</source>
                 <target>Accueil</target>
+            </trans-unit>
+            <trans-unit id="menu.boutique">
+                <source>menu.boutique</source>
+                <target>Boutique</target>
+            </trans-unit>
+            <trans-unit id="menu.blog">
+                <source>menu.blog</source>
+                <target>Blog</target>
             </trans-unit>
             <trans-unit id="menu.admin">
                 <source>menu.admin</source>
@@ -361,19 +394,33 @@
 
             <trans-unit id="help.app_description">
                 <source>help.app_description</source>
-                <target><![CDATA[Ceci est une <strong>application de démonstration</strong> construite avec le framework Symfony pour illustrer la façon recommandée de développer des applications Symfony.]]></target>
+                <target><![CDATA[Ceci est un blog sur <strong>l'actualité informatique & climatique</strong>, vous pouvez vous inscrire pour plus fonctionnalités ou simplement naviguer sur le site, pour toute autre demande, n'hésitez pas à ]]></target>
             </trans-unit>
             <trans-unit id="help.show_code">
                 <source>help.show_code</source>
                 <target><![CDATA[Cliquez sur ce bouton pour voir le code source du <strong>contrôleur</strong> et du <strong>template</strong> utilisé pour afficher cette page.]]></target>
             </trans-unit>
+
+            <trans-unit id="help.pub">
+                <source>help.pub</source>
+                <target><![CDATA[Publicités <strong>cliquez içi</strong> pour accéder à<strong>l'annonce</strong> .]]></target>
+            </trans-unit>
+
             <trans-unit id="help.browse_app">
                 <source>help.browse_app</source>
-                <target><![CDATA[Parcourir la <strong>section publique</strong> de l'application de démonstration.]]></target>
+                <target><![CDATA[Parcourir la <strong>section publique</strong> de l'application.]]></target>
             </trans-unit>
             <trans-unit id="help.browse_admin">
                 <source>help.browse_admin</source>
-                <target><![CDATA[Parcourir l'<strong>interface d'administration</strong> de l'application de démonstration.]]></target>
+                <target><![CDATA[Parcourir l'<strong>interface d'administration</strong> de l'application.]]></target>
+            </trans-unit>
+            <trans-unit id="help.browse_login">
+                <source>help.browse_login</source>
+                <target><![CDATA[Accédez au <strong>formulaire de connexion</strong> de l'application.]]></target>
+            </trans-unit>
+            <trans-unit id="help.browse_logout">
+                <source>help.browse_logout</source>
+                <target><![CDATA[<strong>Se déconnecter</strong>]]></target>
             </trans-unit>
             <trans-unit id="help.login_users">
                 <source>help.login_users</source>
@@ -397,7 +444,7 @@
             </trans-unit>
             <trans-unit id="help.more_information">
                 <source>help.more_information</source>
-                <target><![CDATA[Pour plus d'informations, consultez la <a href="https://symfony.com/doc">documentation de Symfony</a>.]]></target>
+                <target><![CDATA[Inscription aux newsletters, pour être informé des <a href="https://symfony.com/doc">nouveautés</a>.]]></target>
             </trans-unit>
             <trans-unit id="help.post_summary">
                 <source>help.post_summary</source>

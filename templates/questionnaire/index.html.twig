@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Questionnaire index{% endblock %}
+
+{% block body %}
+    <h1>Questionnaire index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Libelle</th>
+                <th>Type</th>
+                <th>Title</th>
+                <th>Sum</th>
+                <th>Is_valid</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for questionnaire in questionnaires %}
+            <tr>
+                <td>{{ questionnaire.id }}</td>
+                <td>{{ questionnaire.nom }}</td>
+                <td>{{ questionnaire.libelle }}</td>
+                <td>{{ questionnaire.type }}</td>
+                <td>{{ questionnaire.title }}</td>
+                <td>{{ questionnaire.sum }}</td>
+                <td>{{ questionnaire.isValid ? 'Yes' : 'No' }}</td>
+                <td>{{ questionnaire.gender }}</td>
+                <td>{{ questionnaire.age }}</td>
+                <td>
+                    <a href="{{ path('questionnaire_show', {'id': questionnaire.id}) }}">show</a>
+                    <a href="{{ path('questionnaire_edit', {'id': questionnaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('questionnaire_new') }}">Create new</a>
+{% endblock %}

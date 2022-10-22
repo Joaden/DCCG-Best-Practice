@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Form;
 
 use App\Entity\User;
@@ -16,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -43,7 +35,7 @@ class UserType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => 'label.username',
-                'disabled' => true,
+                'disabled' => false,
             ])
             ->add('fullName', TextType::class, [
                 'label' => 'label.fullname',
@@ -51,9 +43,16 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'label.email',
             ])
-            ->add('isVerified', TextType::class, [
+//            ->add('isVerified', TextType::class, [
+            ->add('isVerified', ChoiceType::class, [
                 'label' => 'label.is_verified',
                 'disabled' => true,
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+//                'expanded' => true,
+//                'attr' => array('name' => 'is_verified','value'=>'newvalue'),
             ])
             ->add('avatar', FileType::class, [
                 'label' => 'upload a file',
@@ -62,7 +61,8 @@ class UserType extends AbstractType
                 'required' => false,
             ])
              ->add('saying', TextType::class, [
-                'label' => 'label.saying',
+                'label' => 'Bio',
+                'required' => false,
             ])
         ;
     }

@@ -13,6 +13,8 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Security\PostVoter;
+use Psr\Log\LoggerInterface;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -36,6 +38,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BlogController extends AbstractController
 {
+//    private $logger;
+//
+//    public function __construct(LoggerInterface $dbLogger)
+//    {
+//        $this->logger = $logger;
+//
+//    }
+
     /**
      * Lists all Post entities.
      *
@@ -66,7 +76,7 @@ class BlogController extends AbstractController
      * to constraint the HTTP methods each controller responds to (by default
      * it responds to all methods).
      */
-    public function new(Request $request): Response
+    public function new(Request $request, LoggerInterface $dbLogger): Response
     {
         $post = new Post();
         $post->setAuthor($this->getUser());
@@ -81,6 +91,35 @@ class BlogController extends AbstractController
         // isValid() method already checks whether the form is submitted.
         // However, we explicitly add it to improve code readability.
         // See https://symfony.com/doc/current/forms.html#processing-forms
+//        Using Validator Service
+//        use Symfony\Component\Validator\Validator\ValidatorInterface;
+//        $errors = $validator->validate($author);
+//
+//        if (count($errors) > 0) {
+//            /*
+//             * Uses a __toString method on the $errors variable which is a
+//             * ConstraintViolationList object. This gives us a nice string
+//             * for debugging.
+//             */
+//            $errorsString = (string) $errors;
+//
+//            return new Response($errorsString);
+//        }
+//////////// Second Validation
+//        use Symfony\Component\Validator\Validation;
+//        $validator = Validation::createValidator();
+//        $violations = $validator->validate($article, [
+//            new Length(['min' => 10]),
+//            new NotBlank(),
+//        ]);
+//
+//        if (0 !== count($violations)) {
+//            // Affiche les erreurs
+//            foreach ($violations as $violation) {
+//                echo $violation->getMessage().'<br>';
+//            }
+//        }
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             // On récupère l'image transmise
@@ -90,6 +129,7 @@ class BlogController extends AbstractController
             if ($images) {
                 foreach($images as $image){
                     // On génère un nouveau nom de fichier (guessExtension get le .jpg/png etc..)
+//                    $filename = bin2hex(random_bytes(6)).'.'.$image->guessExtension();
                     $fichier = md5(uniqid()) . 'post.' . $image->guessExtension();
 
                     // On copie le fichier dans le dossier uploads
@@ -106,6 +146,15 @@ class BlogController extends AbstractController
     //                // instead of its contents
                     $post->setImage($fichier);
                 }
+            }
+
+            if ($this->getUser() != null)
+            {
+                $userlogged = $this->getUser()->getFullName();
+                $dbLogger->info('Create post by '.$userlogged);
+            } else {
+                $dbLogger->error('create post by a UNKNOW');
+
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -136,7 +185,7 @@ class BlogController extends AbstractController
      *
      * @Route("/{id<\d+>}", methods="GET", name="admin_post_show")
      */
-    public function show(Post $post): Response
+    public function show(Post $post, LoggerInterface $dbLogger): Response
     {
         // This security check can also be performed
         // using an annotation: @IsGranted("show", subject="post", message="Posts can only be shown to their authors.")
@@ -153,10 +202,14 @@ class BlogController extends AbstractController
      * @Route("/{id<\d+>}/edit", methods="GET|POST", name="admin_post_edit")
      * @IsGranted("edit", subject="post", message="Posts can only be edited by their authors.")
      */
-    public function edit(Request $request, Post $post): Response
+    public function edit(Request $request, Post $post, LoggerInterface $dbLogger): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
+        //  A tester
+//        if ($this->getUser() !== $article->getAuthor() || !$this->isGranted('ROLE_ADMIN')) {
+//            throw $this->createAccessDeniedException();
+//        }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -187,6 +240,18 @@ class BlogController extends AbstractController
             }
             $this->getDoctrine()->getManager()->flush();
 
+
+            if ($this->getUser() != null)
+            {
+                $userlogged = $this->getUser()->getFullName();
+                $postID = $request->get('post')->getId();
+
+                $dbLogger->info('Edit post id:'.$postID.' by '.$userlogged);
+            } else {
+                $dbLogger->error('Edit post id:'.$postID.' by an UNKNOW');
+
+            }
+
             $this->addFlash('success', 'post.updated_successfully');
 
             return $this->redirectToRoute('admin_post_edit', ['id' => $post->getId()]);
@@ -204,7 +269,7 @@ class BlogController extends AbstractController
      * @Route("/{id}/delete", methods="POST", name="admin_post_delete")
      * @IsGranted("delete", subject="post")
      */
-    public function delete(Request $request, Post $post): Response
+    public function delete(Request $request, Post $post, LoggerInterface $dbLogger): Response
     {
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             return $this->redirectToRoute('admin_post_index');
@@ -214,6 +279,17 @@ class BlogController extends AbstractController
         // by Doctrine, except for SQLite (the database used in this application)
         // because foreign key support is not enabled by default in SQLite
         $post->getTags()->clear();
+
+        if ($this->getUser() != null)
+        {
+            $userlogged = $this->getUser()->getFullName();
+            $postID = $request->get('post')->getId();
+
+            $dbLogger->info('Delete post id:'.$postID.' by '.$userlogged);
+        } else {
+            $dbLogger->error('Delete post id:'.$postID.' by an UNKNOW');
+
+        }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($post);

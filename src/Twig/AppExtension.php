@@ -11,6 +11,7 @@
 
 namespace App\Twig;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Intl\Locales;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -18,20 +19,19 @@ use Twig\TwigFunction;
 /**
  * See https://symfony.com/doc/current/templating/twig_extension.html.
  *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- * @author Julien ITARD <julienitard@gmail.com>
  */
 class AppExtension extends AbstractExtension
 {
     private $localeCodes;
     private $locales;
 
-    public function __construct(string $locales)
+    public function __construct(string $locales, EntityManagerInterface $entityManager)
     {
         $localeCodes = explode('|', $locales);
         sort($localeCodes);
         $this->localeCodes = $localeCodes;
+
+        $this->em = $entityManager;
     }
 
     /**
@@ -41,6 +41,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('locales', [$this, 'getLocales']),
+            new TwigFunction('getNavbars', [$this, 'getNavbars']),
         ];
     }
 
@@ -62,6 +63,18 @@ class AppExtension extends AbstractExtension
 
         return $this->locales;
     }
+
+    /**
+     * Extension twig getNavbars
+     */
+    public function getNavbars()
+    {
+        return $this->em->getRepository(Navbar::class)->findBy(
+            array('user' => $userId),
+            array('position' => 'ASC')
+        );
+    }
+
 
 
 }

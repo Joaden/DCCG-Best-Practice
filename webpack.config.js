@@ -24,6 +24,7 @@ Encore
     .addEntry('login', './assets/login.js')
     .addEntry('admin', './assets/admin.js')
     .addEntry('search', './assets/search.js')
+    .addEntry('homepage', './assets/js/homepage.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
@@ -61,11 +62,18 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
 
+    .enablePostCssLoader((options) => {
+        options.postcssOptions = {
+        // the directory where the postcss.config.js file is stored
+        config: path.resolve(__dirname, 'sub-dir', 'custom.config.js'),
+        };
+    })
+
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 
     // uncomment if you use React
-    .enableReactPreset()
+    //.enableReactPreset()
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher

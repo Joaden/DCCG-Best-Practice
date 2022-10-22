@@ -1,0 +1,199 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!
+{% endblock %}
+
+{% block body %}
+
+    <div class="border border-success">
+        <div class="bg-light p-3">
+            <h1 class="text-success">Votre panier</h1>
+        </div>
+
+        {% if items | length > 0 %}
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Image</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    {% if item.product.stock >=1 %}
+                    <tr>
+                        <td>{% if item.product.title is defined %}
+                                {{ item.product.title }}
+                            {% else %}
+                                Error
+                            {% endif %}
+                        </td>
+                        <td>
+                            <img class="img-fluid w-25 p-3" src="{{ item.product.image }}" alt="Image de {{ item.product.title }}">
+                        </td>
+                        <td>{% if item.product.price is defined %}
+                            {{ item.product.price }} €
+                            {% else %}
+                                Error
+                            {% endif %}
+                        </td>
+                        <td>{% if item.quantity is defined %}
+                            {{ item.quantity }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.product.price is defined %}
+                                {% if item.quantity is defined %}
+                                    {{ item.product.price * item.quantity }} €
+                                {% endif %}
+                                {% else %}
+                                    error
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.product.price is defined %}
+                            <a class="btn btn-danger btn-sm" href="{{ path('cart_remove', {'id': item.product.id}) }}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="3">Total HT : </td>
+                    <td>{{ total }} €</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    {% set Tva = 20/100 %}
+                    {% set totalTva = total * Tva %}
+                    {% set totalTtc = totalTva + total %}
+                    <td colspan="2">Total TTC TVA (20%): </td>
+                    <td></td>
+                    <td> {{ totalTtc }} € : ( tva {{ totalTva }} €)</td>
+                </tr>
+                <tr>
+                    {#{% for item in items %}#}
+                    <td colspan="2">Valider le panier : </td>
+                    <td>{{ totalQ }} Produits</td>
+                    <td> {{ totalTtc }} €</td>
+                    <td>
+                    <a class="btn btn-warning btn-sm" href="{{ path('product_index') }}"> Continuer mes achats
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a class="btn btn-success btn-md" href="#"> Valider ! 
+                            <i class="fas fa-check"></i>
+                        </a>
+                    </td>
+                </tr>
+                {#{% endfor %}#}
+
+                </tfoot>
+            </table>
+
+        {% else %}
+
+        <p>Surprise, c'est vide !</p>
+
+        {% endif %}
+    </div>
+
+<span><hr></span>
+
+<!-- ////////////////////////////////////  CHECKLIST      ////////////////////////////////////////////// -->
+
+    <div class="border border-primary">
+
+        <div class="bg-light p-3">
+            <h1 class="text-primary">Votre Checklist</h1>
+        </div>
+
+        {% if items | length > 0 %}
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Image</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    {% if item.product.stock <=0 %}
+                    <tr>
+                        <td>{% if item.product.title is defined %}
+                                {{ item.product.title }}
+                            {% else %}
+                                Error
+                            {% endif %}
+                        </td>
+                        <td>
+                            <img class="img-fluid w-25 p-3" src="{{ item.product.image }}" alt="Image de {{ item.product.title }}">
+                        </td>
+                        <td>{% if item.product.price is defined %}
+                            {{ item.product.price }} €
+                            {% else %}
+                                Error
+                            {% endif %}
+                        </td>
+                        <td>{% if item.quantity is defined %}
+                            {{ item.quantity }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.product.price is defined %}
+                                {% if item.quantity is defined %}
+                                    {{ item.product.price * item.quantity }} €
+                                {% endif %}
+                                {% else %}
+                                    error
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.product.price is defined %}
+                            <a class="btn btn-success btn-sm" href="{{ path('checklist_add_cart', {'id': item.product.id}) }}">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <a class="btn btn-danger btn-sm" href="{{ path('checklist_remove', {'id': item.product.id}) }}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+
+                {% if item.product is defined %}
+                    <tr>
+                        <td colspan="3">Total HT : </td>
+                        <td> totalList  €</td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+
+                {#{% endfor %}#}
+
+                </tfoot>
+            </table>
+            {% else %}
+
+            <p>Checklist vide !</p> 
+            
+        {% endif %}
+    </div>
+
+{% endblock %}

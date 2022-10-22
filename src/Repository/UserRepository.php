@@ -28,4 +28,17 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    public function getAdminMails():array
+    {
+        $tab = [];
+
+        foreach($this->findAll() as $user)
+        {
+            if($user->hasRole('ROLE_ADMIN')){
+                $tab[] = $user->getEmail();
+            }
+        }
+        return $tab;
+    }
 }

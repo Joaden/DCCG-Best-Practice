@@ -1,16 +1,8 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Controller;
 
+use App\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,10 +22,20 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="security_login")
      */
-    public function login(Request $request, Security $security, AuthenticationUtils $helper): Response
+    public function login(Request $request, UserManager $userManager, Security $security, AuthenticationUtils $helper): Response
     {
         // if user is already logged in, don't display the login page again
+        if($security->isGranted('ROLE_MODERATOR')) {
+            return $this->redirectToRoute('moderator_index');
+        }
+
         if ($security->isGranted('ROLE_USER')) {
+
+//            $user = $this->getUser();
+//            $user = $userManager->saveDateLastLog($user->getUser());
+//            $user->$userManager->saveDateLastLog($user);
+            $this->addFlash('success', 'connexion successfully');
+
             return $this->redirectToRoute('blog_index');
         }
 
@@ -61,6 +63,43 @@ class SecurityController extends AbstractController
      */
     public function logout(): void
     {
+        $this->addFlash('success', 'Vous êtes bien déconnecté merci de votre visite');
+//
+//        return $this->render('security/login.html.twig');
         throw new \Exception('This should never be reached!');
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @Route("/dropsession", name="security_drop_session")
+     */
+    public function compteActionLogout( Request $request)
+    {
+        $maxIdleTime=60;
+        $session = $request->getSession();
+
+        if (time() - $session->getMetadataBag()->getLastUsed() > $maxIdleTime) {
+            var_dump($maxIdleTime);
+            dd($session->getMetadataBag()->getLastUsed());
+            $session->invalidate();
+            $session->clear();
+
+//            dd($session->getMetadataBag()->getLastUsed());
+            $this->addFlash('success', 'Vous êtes bien déconnecté merci de votre visite');
+
+            return $this->redirectToRoute('security_login');
+        }
+        else {
+            // le contenu de mon action
+            var_dump("else");
+            dd($session);
+        }
+    }
+
+
+
+
+
+
 }
