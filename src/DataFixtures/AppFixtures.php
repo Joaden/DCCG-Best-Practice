@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Product;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\Tag;
@@ -29,7 +30,24 @@ class AppFixtures extends Fixture
         $this->loadTags($manager);
         $this->loadPosts($manager);
     }
+    public function loadProducts(ObjectManager $manager)
+    {
+        $faker = \Faker\Factory::create();
+        $faker->addProvider(new \Bezhanov\Faker\Provider\Commerce($faker));
+        $faker->addProvider(new \Liior\Faker\Prices($faker));
 
+        for ($i = 0; $i < 50; $i++) {
+            $product = new Product();
+            $product->setTitle($faker->productName)
+                ->setPrice($faker->price(20, 200))
+                ->setImage($faker->imageUrl(400, 400))
+                ->setStock($faker->stock(1, 100));
+
+            $manager->persist($product);
+        }
+
+        $manager->flush();
+    }
     private function loadUsers(ObjectManager $manager): void
     {
         foreach ($this->getUserData() as [$fullname, $username, $password, $email, $roles]) {
