@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
     <head>
-        {#<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>#}
-        {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">#}
+        {# <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script> #}
+        {# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css"> #}
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>{% block title %}Administration DAO CNT{% endblock %}</title>
@@ -15,29 +15,25 @@
     </head>
 
     <body id="{% block body_id %}{% endblock %}">
-    {#<div class="wrapper">#}
+    {# <div class="wrapper">
         <!-- Preloader -->
-        {#<div class="preloader">#}
-            {#<img src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">#}
-            {#<i class="fas fa-sync fa-spin"></i>#}
-        {#</div>#}
-    {#</div>#}
+        <div class="preloader">
+            <img src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+            <i class="fas fa-sync fa-spin"></i>
+        </div>
+    </div> #}
 
         {% block header %}
             <header>
                 <div class="sidebar" role="navigation" >
                     <div class="container">
-
-
                             <ul class="nav navbar-nav navbar-right">
-
                                 {% block header_navigation_links %}
                                     <li>
                                         <a href="{{ path('blog_index') }}">
                                             <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
                                         </a>
                                     </li>
-
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li>
                                             <a href="{{ path('admin_post_index') }}">
@@ -122,15 +118,15 @@
                         {% block main %}{% endblock %}
                     </div>
 
-                    <div id="sidebar" class="col-sm-3">
+                    {# <div id="sidebar" class="col-sm-3">
                         {%  block sidebar %}
                             {{ render_esi(controller('Symfony\\Bundle\\FrameworkBundle\\Controller\\TemplateController::templateAction', {
-                                'template': 'blog/about.html.twig',
+                                'template': '/admin/blog/about.html.twig',
                                 'sharedAge': 600,
                                 '_locale': app.request.locale
                             })) }}
                         {% endblock %}
-                    </div>
+                    </div> #}
                 </div>
             {% endblock %}
         </div>

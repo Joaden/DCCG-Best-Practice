@@ -16,6 +16,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.6",
         "erusev/parsedown": "^1.6",
+        "fakerphp/faker": "^1.20",
         "knplabs/knp-paginator-bundle": "^5.9",
         "liip/imagine-bundle": "^2.7",
         "scheb/2fa-bundle": "^5.13",
