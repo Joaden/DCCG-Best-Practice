@@ -128,11 +128,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $userAddress;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="createBy")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
         $this->logs = new ArrayCollection();
         $this->subscribed_at = new \DateTime();
+        $this->events = new ArrayCollection();
 
     }
 
@@ -462,6 +468,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->userAddress = $userAddress;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setCreateBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getCreateBy() === $this) {
+                $event->setCreateBy(null);
+            }
+        }
 
         return $this;
     }
