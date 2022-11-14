@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block body %}
-
+    <h1>
+    Shop : <a href="https://dao-cnt.creator-spring.com/listing/daocnt-biker-spirit">https://dao-cnt.creator-spring.com</a>
+    </h1>
     <div class="jumbotron">
         <div class="container">
             {#{{ form_start(form) }}#}
@@ -51,6 +53,44 @@
             Produits disponibles {{ record }}
         </div>
     </div>
+
+    {# start liste product spring #}
+    {# 
+        https://vangogh.teespring.com/v3/image/RF77LaVn_5wFVnjTpDkLZf_S-p8/800/800.jpg
+        
+        
+        #}
+    <div class="row">
+            <div class="col-4 mt-4">
+                <div class="border border-dark rounded p-2 clearfix">
+                    <h2>
+                        Sac à dos Biker Spirit
+                        -
+                         30 
+                        €
+                    </h2>
+                        <p class="text-primary">Stock disponible :  product.stock</p>
+                        <img class="img-fluid rounded" src="https://vangogh.teespring.com/v3/image/RF77LaVn_5wFVnjTpDkLZf_S-p8/800/800.jpg" alt="Image de Sac Biker Spirit">
+                        <hr>
+                        <a href="https://dao-cnt.creator-spring.com/listing/daocnt-biker-spirit?product=823" target="_blank" class="btn btn-success float-right">
+                            <i class="fas fa-shopping-cart mr-1"></i>
+                            Voir détail
+                        </a>
+                        {# <p class="text-danger">Stock non disponible :  product.stock </p>
+
+                        <img class="img-fluid rounded" src="https://vangogh.teespring.com/v3/image/RF77LaVn_5wFVnjTpDkLZf_S-p8/800/800.jpg" alt="Image de sac">
+                        <hr>
+                        <p>Vous pourrez commander ce produit quand il sera disponible.</p>
+                        <p>Mettre dans ma liste :
+                            <a href="https://dao-cnt.creator-spring.com/listing/daocnt-biker-spirit?product=823" class="btn btn-info float-right">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                Ajouter
+                            </a>
+                        </p> #}
+                </div>
+            </div>
+    </div>
+    {# end liste product spring #}
 
     <div class="row">
         {% for product in products %}

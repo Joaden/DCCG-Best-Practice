@@ -40,6 +40,7 @@ services:
             string $locales: '%app_locales%'
             string $defaultLocale: '%locale%'
             string $emailSender: '%app.notifications.email_sender%'
+            string $dataDirectory: '%kernel.project_dir%/public/data'
 #            $adminEmail: '%admin_email%
 #    Ecouteur d'event
 #    App\EventListener\BarListener:
